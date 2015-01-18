@@ -25,7 +25,11 @@ public class WorldGenerator {
         Tile[][] buffer = new Tile[sizex][sizey];
         for (int x = 0; x < sizex; x++) {
             for (int y = 0; y < sizey; y++) {
-                buffer[x][y] = GRASSLAND.id;
+                if (Math.random() > .5) {
+                    buffer[x][y] = MOUNTAIN.id;
+                } else {
+                    buffer[x][y] = GRASSLAND.id;
+                }
             }
         }
         return new World(buffer);
@@ -36,7 +40,11 @@ public class WorldGenerator {
         Tile[][] buffer = new Tile[sizex][sizey];
         for (int x = 0; x < sizex; x++) {
             for (int y = 0; y < sizey; y++) {
-                buffer[x][y] = new Tile('a');
+                if (Math.random() > .5) {
+                    buffer[x][y] = MOUNTAIN.id;
+                } else {
+                    buffer[x][y] = GRASSLAND.id;
+                }
             }
         }
         return buffer;
@@ -57,14 +65,14 @@ public class WorldGenerator {
     }
 
     public static World extendUp(int sizey, World world) {
-        Tile[][] buffer = generateBlankChunk(sizey, world.getYSize());
+        Tile[][] buffer = generateBlankChunk(world.getXSize(), sizey);
         world.appendYStart(buffer);
         World bufferWorld = world;
         return bufferWorld;
     }
 
     public static World extendDown(int sizey, World world) {
-        Tile[][] buffer = generateBlankChunk(sizey, world.getYSize());
+        Tile[][] buffer = generateBlankChunk(world.getXSize(), sizey);
         world.appendYEnd(buffer);
         World bufferWorld = world;
         return bufferWorld;

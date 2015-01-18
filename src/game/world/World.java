@@ -1,16 +1,18 @@
 package game.world;
 
 import game.players.Coord;
+import game.players.Player;
 import java.util.ArrayList;
 
 public class World {
 
     //x,y coordinates (top left is origin)
     public ArrayList<ArrayList<Tile>> world;
+    public ArrayList<Player> players;
 
     public World(Tile[][] world) {
         this.world = new ArrayList<ArrayList<Tile>>();
-
+        players = new ArrayList<Player>();
         for (int x = 0; x < world[0].length; x++) {
             ArrayList<Tile> buffer = new ArrayList<Tile>();
             for (int y = 0; y < world.length; y++) {
@@ -21,12 +23,12 @@ public class World {
     }
 
     public boolean appendXEnd(Tile[][] append) {
-        if (append.length != world.get(0).size()) {
+        if (append[0].length != getYSize()) {
             return false;
         }
-        for (int x = 0; x < append[0].length; x++) {
+        for (int x = 0; x < append.length; x++) {
             ArrayList<Tile> buffer = new ArrayList<Tile>();
-            for (int y = 0; y < append.length; y++) {
+            for (int y = 0; y < append[0].length; y++) {
                 buffer.add(append[x][y]);
             }
             world.add(buffer);
@@ -35,11 +37,11 @@ public class World {
     }
 
     public boolean appendYEnd(Tile[][] append) {
-        if (append[0].length != world.size()) {
+        if (append.length != getXSize()) {
             return false;
         }
-        for (int x = 0; x < append[0].length; x++) {
-            for (int y = 0; y < append.length; y++) {
+        for (int x = 0; x < append.length; x++) {
+            for (int y = 0; y < append[0].length; y++) {
                 world.get(x).add(append[x][y]);
             }
         }
@@ -47,12 +49,12 @@ public class World {
     }
 
     public boolean appendXStart(Tile[][] append) {
-        if (append.length != world.get(0).size()) {
+        if (append[0].length != getYSize()) {
             return false;
         }
-        for (int x = 0; x < append[0].length; x--) {
+        for (int x = 0; x < append.length; x++) {
             ArrayList<Tile> buffer = new ArrayList<Tile>();
-            for (int y = 0; y < append.length; y++) {
+            for (int y = 0; y < append[0].length; y++) {
                 buffer.add(append[x][y]);
             }
             world.add(x, buffer);
@@ -61,11 +63,11 @@ public class World {
     }
 
     public boolean appendYStart(Tile[][] append) {
-        if (append[0].length != world.size()) {
+        if (append.length != getXSize()) {
             return false;
         }
-        for (int x = 0; x < append[0].length; x++) {
-            for (int y = 0; y < append.length; y++) {
+        for (int x = 0; x < append.length; x++) {
+            for (int y = 0; y < append[0].length; y++) {
                 world.get(x).add(y, append[x][y]);
             }
         }
@@ -94,4 +96,5 @@ public class World {
         world.set(location.x, buffer);
         return true;
     }
+    
 }
