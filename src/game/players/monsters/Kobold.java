@@ -5,12 +5,18 @@
  */
 package game.players.monsters;
 
+import game.players.Coord;
 import game.players.Player;
 
 /**
  *
  * @author Chen
  */
-public class Kobold extends Player {
+public class Kobold extends Player implements AI{
+
+    @Override
+    public Coord moveNext() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

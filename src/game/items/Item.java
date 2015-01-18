@@ -18,16 +18,20 @@ public class Item {
     public ItemStat stats;
     public char symbol;
     public Color foreground;
-    public Color background;
     public int type;
 
-    public Item(String name, ItemStat stats, char symbol,int type) {
+    public Item(String name, ItemStat stats, char symbol, int type) {
         this.name = name;
         this.stats = stats;
         this.symbol = symbol;
         foreground = Defaults.FOREGROUND_COLOR;
-        foreground = Defaults.BACKGROUND_COLOR;
         this.type = type;
+    }
+
+    public Item(String name, ItemStat stats, char symbol, int type, Color color) {
+        this(name, stats, symbol, type);
+        foreground = color;
+
     }
 
 }

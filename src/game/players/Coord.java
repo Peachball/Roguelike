@@ -1,6 +1,8 @@
 package game.players;
 
-public class Coord {
+import java.util.Comparator;
+
+public class Coord implements Comparable<Coord> {
 
     public int x;
     public int y;
@@ -23,5 +25,22 @@ public class Coord {
                 return buffer = new Coord(x.x - 1, x.y - 1);
         }
         return null;
+    }
+
+    public static int manhattanDistance(Coord x, Coord y) {
+        return Math.abs(x.x - y.x) + Math.abs(x.y - y.y);
+    }
+
+    public static int realDistance(Coord x, Coord y) {
+        return (int) Math.round(Math.sqrt(Math.pow(x.x - y.x, 2) + Math.pow(x.y - y.y, 2))) - 1;
+    }
+
+    @Override
+    public int compareTo(Coord t) {
+        if (x != t.x) {
+            return x - t.x;
+        } else {
+            return y - t.y;
+        }
     }
 }

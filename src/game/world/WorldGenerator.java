@@ -5,8 +5,6 @@
  */
 package game.world;
 
-import game.players.Coord;
-import game.players.Human;
 import static game.world.TileList.*;
 
 /**
@@ -50,6 +48,8 @@ public class WorldGenerator {
         return buffer;
     }
 
+    
+    //Add actual chunk generator in these methods later...
     public static World extendRight(int sizex, World world) {
         Tile[][] buffer = generateBlankChunk(sizex, world.getYSize());
         world.appendXEnd(buffer);

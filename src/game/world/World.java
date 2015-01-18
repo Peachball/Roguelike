@@ -22,6 +22,14 @@ public class World {
         }
     }
 
+    public void updateWorld() {
+        for (int x = 0; x < getXSize(); x++) {
+            for (int y = 0; y < getYSize(); y++) {
+                get(new Coord(x, y)).update();
+            }
+        }
+    }
+
     public boolean appendXEnd(Tile[][] append) {
         if (append[0].length != getYSize()) {
             return false;
@@ -96,5 +104,5 @@ public class World {
         world.set(location.x, buffer);
         return true;
     }
-    
+
 }
