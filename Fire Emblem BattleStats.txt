@@ -1,5 +1,6 @@
 Attack Speed:
-If a character's Strength is less than than the weight of the weapon they have equipped, then the attack speed is reduced by the amount by which the weight exceeds their Strength. Otherwise, attack speed is equal to the character's Speed.
+If a character's Strength is less than than the weight of the weapon they have equipped, then the attack speed is reduced by the amount by which the weight exceeds their 
+Strength. Otherwise, attack speed is equal to the character's Speed.
 
 If WWT = Strength, then AS = Speed
 If WWT > Strength, then AS = Speed - (Weapon Weight - Strength)
@@ -11,13 +12,15 @@ Hit Rate:
  Hit Rate = Weapon Accuracy + Skill x 2 + Luck / 2
             + Support Bonus + S-Rank Bonus + Tactician Bonus
 
+
 Evade:
  Evade = Attack Speed x 2 + Luck + Terrain Bonus
          + Support Bonus + Tactician Bonus
 
-Accuracy:
-Accuracy is used in battle to determine how likely a character is to hit another character, using the difference between the attacker's hit rate and the defender's evade. In-game information windows may refer to Accuracy as "Hit", e.g. FE7
 
+Accuracy:
+Accuracy is used in battle to determine how likely a character is to hit another character, using the difference between the attacker's hit rate and the defender's evade. 
+In-game information windows may refer to Accuracy as "Hit", e.g. FE7
 FE1, FE2, FE3:
  Accuracy = Hit Rate (Attacker) - Evade (Defender)
   ~All: Capped to between 0 and 100
@@ -38,7 +41,8 @@ and the western versions moving to a new 2 for effective and 1 otherwise. In add
 the Weapon Triangle bonus works as before (+1 for strong, -1 for weak and 0 otherwise) 
 except that when using Swordreaver, Swordslayer, Lancereaver and Axereaver it becomes +2 
 or -2 for both weapons, unless both parties are wielding one of them in which case it 
-reverts to the normal +1, -1. Also note that for weapon triangle purposes, Light Brand and Wind Sword used indirectly count as light and anima magic respectively, while Runeswordis always treated as dark magic.
+reverts to the normal +1, -1. Also note that for weapon triangle purposes, Light Brand and Wind Sword used indirectly count as light and anima magic respectively, 
+while Runeswordis always treated as dark magic.
 
 Physical Attack = Strength + (Weapon Might + Weapon Triangle Bonus) X Weapon effectiveness + Support Bonus
 
