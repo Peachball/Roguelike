@@ -17,7 +17,7 @@ public class ItemSpawner {
                 ArrayList<ItemList> buffer = new ArrayList<ItemList>(Arrays.asList(ItemList.values()));
                 Collections.shuffle(buffer);
                 for (ItemList item : buffer) {
-                    if (Math.random() * 100 < Defaults.MAX_RARITY - (Defaults.RARITY_CONSTANT * item.item.stats.rarity)) {
+                    if (Math.random() * 1000 < Defaults.MAX_RARITY - (Defaults.RARITY_CONSTANT * item.item.stats.rarity)) {
                         world.get(x, y).addItem(item.item);
                         break;
                     }

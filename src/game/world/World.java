@@ -1,6 +1,7 @@
 package game.world;
 
 import game.players.Coord;
+import game.players.Human;
 import game.players.Player;
 import java.util.ArrayList;
 
@@ -9,6 +10,7 @@ public class World {
     //x,y coordinates (top left is origin)
     public ArrayList<ArrayList<Tile>> world;
     public ArrayList<Player> players;
+    public Human player1;
 
     public World(Tile[][] world) {
         this.world = new ArrayList<ArrayList<Tile>>();
@@ -103,6 +105,10 @@ public class World {
         buffer.set(location.y, object);
         world.set(location.x, buffer);
         return true;
+    }
+    
+    public boolean addPlayer(Player player){
+        return players.add(player);
     }
 
 }
