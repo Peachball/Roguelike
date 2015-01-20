@@ -6,7 +6,7 @@ import java.awt.Color;
 public enum ItemList {
 
     FIST(new Item("Fists", new ItemStat(1, 0, 0, 0, 0, 0), ')', Defaults.WeaponID,Color.WHITE)),
-    SWORD(new Item("Sword", new ItemStat(2, 0, 0, 0, 0, 0), '/', Defaults.WeaponID,Color.GRAY));
+    SWORD(new Item("Sword", new ItemStat(2, 0, 0, 0, 0, 0), 'v', Defaults.WeaponID,Color.GRAY));
 
     public Item item;
 

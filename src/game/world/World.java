@@ -36,10 +36,10 @@ public class World {
         if (append[0].length != getYSize()) {
             return false;
         }
-        for (int x = 0; x < append.length; x++) {
+        for (Tile[] append1 : append) {
             ArrayList<Tile> buffer = new ArrayList<Tile>();
             for (int y = 0; y < append[0].length; y++) {
-                buffer.add(append[x][y]);
+                buffer.add(append1[y]);
             }
             world.add(buffer);
         }

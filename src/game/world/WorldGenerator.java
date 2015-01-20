@@ -24,9 +24,9 @@ public class WorldGenerator {
         for (int x = 0; x < sizex; x++) {
             for (int y = 0; y < sizey; y++) {
                 if (Math.random() > .5) {
-                    buffer[x][y] = MOUNTAIN.id;
+                    buffer[x][y] = generateTile(GRASSLAND);
                 } else {
-                    buffer[x][y] = GRASSLAND.id;
+                    buffer[x][y] = generateTile(MOUNTAIN);
                 }
             }
         }
@@ -39,9 +39,9 @@ public class WorldGenerator {
         for (int x = 0; x < sizex; x++) {
             for (int y = 0; y < sizey; y++) {
                 if (Math.random() > .5) {
-                    buffer[x][y] = MOUNTAIN.id;
+                    buffer[x][y] = generateTile(MOUNTAIN);
                 } else {
-                    buffer[x][y] = GRASSLAND.id;
+                    buffer[x][y] = generateTile(GRASSLAND);
                 }
             }
         }

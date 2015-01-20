@@ -1,6 +1,7 @@
 package game.items;
 
-import game.defaults.Defaults;
+import game.players.Coord;
+import game.world.Tile;
 import game.world.World;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,9 +17,13 @@ public class ItemSpawner {
             for (int y = 0; y < world.getYSize(); y++) {
                 ArrayList<ItemList> buffer = new ArrayList<ItemList>(Arrays.asList(ItemList.values()));
                 Collections.shuffle(buffer);
-                for (ItemList item : buffer) {
-                    if (Math.random() * 1000 < Defaults.MAX_RARITY - (Defaults.RARITY_CONSTANT * item.item.stats.rarity)) {
-                        world.get(x, y).addItem(item.item);
+                for (int counter = 0;counter<buffer.size();counter++) {
+                    //Test case:
+                    if (Math.random()>0.75) {
+                        Tile asdf = world.get(x,y);
+                        asdf.addItem(ItemList.FIST.item);
+                        world.set(new Coord(x,y), asdf);
+                        System.out.println(x+","+y);
                         break;
                     }
                 }

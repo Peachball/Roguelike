@@ -9,6 +9,8 @@ import java.util.Comparator;
 public class Tile {
 
     public Color background;
+    public Color currentBackground;
+    public Color currentForeground;
     public Color foreground;
     public char representer;
     public ArrayList<Item> items;
@@ -19,11 +21,21 @@ public class Tile {
     public Tile(Color background, Color foreground, char x, int type) {
         this.background = background;
         this.foreground = foreground;
+        currentBackground = background;
         this.representer = x;
         wall = (x == Defaults.WALL_CHAR);
-        if (!wall) {
-            items = new ArrayList<Item>();
-        }
+        items = new ArrayList<Item>();
+        this.type = type;
+        isVisible = true;
+    }
+
+    public Tile(Color background, Color foreground, char x, int type,boolean isEmpty) {
+        this.background = background;
+        this.foreground = foreground;
+        currentBackground = background;
+        this.representer = x;
+        wall = (x == Defaults.WALL_CHAR);
+        items = new ArrayList<Item>();
         this.type = type;
         isVisible = true;
     }
@@ -45,7 +57,7 @@ public class Tile {
             representer = ' ';
             return false;
         }
-        foreground = items.get(0).foreground;
+        currentForeground = items.get(0).foreground;
         representer = items.get(0).symbol;
         return true;
     }
@@ -57,6 +69,7 @@ public class Tile {
     public Tile(char a) {
         this(Color.BLACK, Color.WHITE, a, Defaults.DEFAULT_GRASSLANDS);
     }
+
 }
 
 class ItemComparator implements Comparator<Item> {

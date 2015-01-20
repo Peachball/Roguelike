@@ -6,6 +6,7 @@ import game.items.ItemSpawner;
 import game.players.Coord;
 import game.players.Human;
 import game.players.monsters.FOV;
+import static game.world.TileList.*;
 import game.world.World;
 import game.world.WorldGenerator;
 import java.awt.Color;
@@ -25,6 +26,7 @@ public class PlayScreen implements Screen {
     }
 
     public void display(AsciiPanel output) {
+        
 
         //Display the map with all of it's items + Players fov
         FOV playervision = new FOV(world.player1.location, 20);
@@ -34,8 +36,8 @@ public class PlayScreen implements Screen {
                 //Print out map of where the player is on screen
                 int bufferx = world.player1.location.x + x - (Defaults.GAMESCREEN_SIZEX / 2);
                 int buffery = world.player1.location.y + y - (Defaults.GAMESCREEN_SIZEY / 2);
-                Color foreground = world.get(bufferx, buffery).foreground;
-                Color background = world.get(bufferx, buffery).background;
+                Color foreground = world.get(bufferx, buffery).currentForeground;
+                Color background = world.get(bufferx, buffery).currentBackground;
 
                 //(You can't see the things outside of your fov...
                 //I'll add a list of places you've seen later...
