@@ -5,8 +5,8 @@ import game.defaults.Defaults;
 import game.items.ItemSpawner;
 import game.players.Coord;
 import game.players.Human;
+import game.players.Player;
 import game.players.monsters.FOV;
-import static game.world.TileList.*;
 import game.world.World;
 import game.world.WorldGenerator;
 import java.awt.Color;
@@ -23,11 +23,14 @@ public class PlayScreen implements Screen {
         world = WorldGenerator.generateBlankWorld(Defaults.CHUNK_SIZE * 3, Defaults.CHUNK_SIZE * 3);
         ItemSpawner.generateItems(world, Defaults.RARITY_CONSTANT);
         human = new Human(new Coord(Defaults.CHUNK_SIZE + 1, Defaults.CHUNK_SIZE + 1));
+
+        //Whatever happens to human in this class will also affect what happens to the player
+        //in the World object right?
+        world.addPlayer(human);
         world.updateWorld();
     }
 
     public void display(AsciiPanel output) {
-        
 
         //Display the map with all of it's items + Players fov
         FOV playervision = new FOV(human.location, 20);
@@ -51,7 +54,13 @@ public class PlayScreen implements Screen {
             }
         }
 
-        //Display all the creatures
+        //Display all the creatures:halp plox
+        for (int counter = 0; counter < world.players.size(); counter++) {
+            Player buffer = world.players.get(counter);
+            int buffery = human.location.y -buffer.location.y + (Defaults.GAMESCREEN_SIZEY / 2);
+            int bufferx = human.location.x - buffer.location.x + (Defaults.GAMESCREEN_SIZEX / 2);
+            
+        }
         //Display the player
         output.write('@', (Defaults.GAMESCREEN_SIZEX / 2),
                 (Defaults.GAMESCREEN_SIZEY / 2), Color.BLACK, world.get(human.location).background);

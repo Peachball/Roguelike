@@ -1,0 +1,15 @@
+package game.items;
+
+/*
+Morally feeling kinda bad about this class because
+I got the idea from Shreyas...
+Brand is the type (e.g., a "Steel" sword...0
+ */
+public class Brand {
+    public String name;
+    public ItemStat stats;// The stats are a buff or minus... (both are possible)
+    public Brand(String name, ItemStat stats){
+        this.name = name;
+        this.stats = stats;
+    }
+}

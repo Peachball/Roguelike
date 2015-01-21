@@ -1,5 +1,7 @@
 package game.items;
 
+import static game.items.ItemList.STICK;
+import static game.items.ItemList.getItem;
 import game.players.Coord;
 import game.world.Tile;
 import game.world.World;
@@ -21,7 +23,7 @@ public class ItemSpawner {
                     //Test case:
                     if (Math.random()>0.9) {
                         Tile asdf = world.get(x,y);
-                        asdf.addItem(ItemList.FIST.item);
+                        asdf.addItem(getItem(STICK));
                         world.set(new Coord(x,y), asdf);
                         break;
                     }

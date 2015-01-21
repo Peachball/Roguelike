@@ -6,6 +6,18 @@ import java.awt.event.KeyEvent;
 
 public class Defaults {
 
+    //These values determine what color an item should be...
+    //Not sure how else to determine item color aside from type
+    public static final int LOW_RARITY = 5;
+    public static final int MEDIUM_RARITY = 10;
+    public static final int HIGH_RARITY = 15;
+    
+    //These Color are wayyy too bright...
+    public static final Color LOW_RARITY_COLOR = Color.GREEN;
+    public static final Color MEDIUM_RARITY_COLOR = Color.YELLOW;
+    public static final Color HIGH_RARITY_COLOR = Color.RED;
+    
+    
     public static final int RARITY_CONSTANT = 5;
     public static final int MAX_RARITY = 50;
     public static final int WEAPON_EFFECTIVNESS = 2;
