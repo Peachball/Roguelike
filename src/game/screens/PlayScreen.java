@@ -16,12 +16,13 @@ import java.util.Collections;
 public class PlayScreen implements Screen {
 
     private World world;
+    private Human human;
 
     public PlayScreen() {
 
         world = WorldGenerator.generateBlankWorld(Defaults.CHUNK_SIZE * 3, Defaults.CHUNK_SIZE * 3);
         ItemSpawner.generateItems(world, Defaults.RARITY_CONSTANT);
-        world.player1 = new Human(new Coord(Defaults.CHUNK_SIZE + 1, Defaults.CHUNK_SIZE + 1));
+        human = new Human(new Coord(Defaults.CHUNK_SIZE + 1, Defaults.CHUNK_SIZE + 1));
         world.updateWorld();
     }
 
@@ -29,13 +30,13 @@ public class PlayScreen implements Screen {
         
 
         //Display the map with all of it's items + Players fov
-        FOV playervision = new FOV(world.player1.location, 20);
+        FOV playervision = new FOV(human.location, 20);
         playervision.generateFOV(true);
         for (int x = 0; x < Defaults.GAMESCREEN_SIZEX; x++) {
             for (int y = 0; y < Defaults.GAMESCREEN_SIZEY; y++) {
                 //Print out map of where the player is on screen
-                int bufferx = world.player1.location.x + x - (Defaults.GAMESCREEN_SIZEX / 2);
-                int buffery = world.player1.location.y + y - (Defaults.GAMESCREEN_SIZEY / 2);
+                int bufferx = human.location.x + x - (Defaults.GAMESCREEN_SIZEX / 2);
+                int buffery = human.location.y + y - (Defaults.GAMESCREEN_SIZEY / 2);
                 Color foreground = world.get(bufferx, buffery).currentForeground;
                 Color background = world.get(bufferx, buffery).currentBackground;
 
@@ -53,7 +54,7 @@ public class PlayScreen implements Screen {
         //Display all the creatures
         //Display the player
         output.write('@', (Defaults.GAMESCREEN_SIZEX / 2),
-                (Defaults.GAMESCREEN_SIZEY / 2), Color.BLACK, world.get(world.player1.location).background);
+                (Defaults.GAMESCREEN_SIZEY / 2), Color.BLACK, world.get(human.location).background);
         //Health Screen
         //Event log
         //Items
@@ -64,30 +65,33 @@ public class PlayScreen implements Screen {
             case KeyEvent.VK_H:
                 return new HelpScreen();
             case KeyEvent.VK_UP:
-                world.player1.location.y--; //The x y coord system starts from the top
+                human.moveUp(); //The x y coord system starts from the top
                 break;
             case KeyEvent.VK_DOWN:
-                world.player1.location.y++; //left, and goes to the bottom right
+                human.moveDown(); //left, and goes to the bottom right
                 break;
             case KeyEvent.VK_RIGHT:
-                world.player1.location.x++;
+                human.moveRight();
                 break;
             case KeyEvent.VK_LEFT:
-                world.player1.location.x--;
+                human.moveLeft();
+                break;
+            case KeyEvent.VK_ENTER:
+                human.pickup(world);
                 break;
         }
-        if (world.player1.location.x < Defaults.CHUNK_SIZE) {
-            world.player1.location.x += Defaults.CHUNK_SIZE;
+        if (human.location.x < Defaults.CHUNK_SIZE) {
+            human.location.x += Defaults.CHUNK_SIZE;
             WorldGenerator.extendLeft(Defaults.CHUNK_SIZE, world);
         }
-        if (world.getXSize() - world.player1.location.x < Defaults.CHUNK_SIZE) {
+        if (world.getXSize() - human.location.x < Defaults.CHUNK_SIZE) {
             WorldGenerator.extendRight(Defaults.CHUNK_SIZE, world);
         }
-        if (world.player1.location.y < Defaults.CHUNK_SIZE) {
-            world.player1.location.y += Defaults.CHUNK_SIZE;
+        if (human.location.y < Defaults.CHUNK_SIZE) {
+            human.location.y += Defaults.CHUNK_SIZE;
             WorldGenerator.extendUp(Defaults.CHUNK_SIZE, world);
         }
-        if (world.getYSize() - world.player1.location.y < Defaults.CHUNK_SIZE) {
+        if (world.getYSize() - human.location.y < Defaults.CHUNK_SIZE) {
             WorldGenerator.extendDown(Defaults.CHUNK_SIZE, world);
         }
         return this;

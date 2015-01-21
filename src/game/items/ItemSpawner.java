@@ -19,11 +19,10 @@ public class ItemSpawner {
                 Collections.shuffle(buffer);
                 for (int counter = 0;counter<buffer.size();counter++) {
                     //Test case:
-                    if (Math.random()>0.75) {
+                    if (Math.random()>0.9) {
                         Tile asdf = world.get(x,y);
                         asdf.addItem(ItemList.FIST.item);
                         world.set(new Coord(x,y), asdf);
-                        System.out.println(x+","+y);
                         break;
                     }
                 }

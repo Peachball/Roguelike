@@ -17,6 +17,7 @@ public class PlayerStat {
     public int magicResist;
     public int damageResist;
     public int luck;
+    public int level;
 
     public PlayerStat(int hp, int skill, int speed, int magicResist, int damageResist) {
         this.hp = hp;
