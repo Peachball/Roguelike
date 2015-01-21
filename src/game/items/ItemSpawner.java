@@ -21,7 +21,7 @@ public class ItemSpawner {
                 Collections.shuffle(buffer);
                 for (int counter = 0;counter<buffer.size();counter++) {
                     //Test case:
-                    if (Math.random()>0.9) {
+                    if (Math.random()>0.99) {
                         Tile asdf = world.get(x,y);
                         asdf.addItem(getItem(STICK));
                         world.set(new Coord(x,y), asdf);

@@ -3,11 +3,15 @@ package game.players;
 import game.defaults.Defaults;
 import game.items.Item;
 import game.world.World;
+import java.util.ArrayList;
 
 public class Human extends Player {
 
     public Coord originalLocation;
     public Item[] items;
+    public ArrayList<Item> inventory;
+    public int maxInventory;
+    public String name;
 
     //This is to determine which hand to switch the weapon out with
     //It could be replaced with more commands on switching specific items out
@@ -16,30 +20,37 @@ public class Human extends Player {
 
     public Human(Coord location) {
 
-        super(new PlayerStat(10, 0, 0, 0, 0), '@');
+        super(new PlayerStat(10, 0, 0, 0,0, 0), '@');
         whichHand = true;
-        this.location = location;
-        this.originalLocation = location;
+        this.location = new Coord(location.x, location.y);
+        this.originalLocation = new Coord(location.x, location.y);
         items = new Item[Defaults.maxCarriableItems];
+        inventory = new ArrayList<Item>();
+        maxInventory = 20;
+    }
+
+    public Human(Coord location, String name) {
+        this(location);
+        this.name = name;
     }
 
     public void moveUp() {
-        this.location.y--;
+        location.y--;
         originalLocation.y--;
     }
 
     public void moveDown() {
-        this.location.y++;
+        location.y++;
         originalLocation.y++;
     }
 
     public void moveRight() {
-        this.location.x++;
+        location.x++;
         originalLocation.x++;
     }
 
     public void moveLeft() {
-        this.location.x--;
+        location.x--;
         originalLocation.x--;
     }
 
@@ -50,20 +61,31 @@ public class Human extends Player {
         world.get(this.location).items.set(0, buffer);
     }
 
+    public void switchItem(int position, int position2) {
+        if (position >= inventory.size() || position2 >= items.length) {
+            return;
+        }
+        Item buffer = inventory.get(position);
+        inventory.set(position, items[position2]);
+        items[position2] = buffer;
+    }
+    
+    public void consume(int position){
+        if(position>=items.length){
+            return;
+        }
+        
+    }
+
     public void pickup(World world) {
         if (world.get(this.location).items.isEmpty()) {
             return;
         }
-
-        //I'll finish this later
-        //Method title should explain purpose of this method...
-        if (world.get(this.location).items.get(0).type == Defaults.WeaponID) {
-            if (items[Defaults.rHand] == null) {
-                switchItems(Defaults.rHand, world);
-                world.get(this.location).items.remove(0);
-            } else if (items[Defaults.lHand] == null) {
-                
-            }
+        if (inventory.size() >= maxInventory) {
+            return;
         }
+
+        inventory.add(world.get(this.location).items.get(0));
+        world.get(this.location).items.remove(0);
     }
 }

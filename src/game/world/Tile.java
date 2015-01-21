@@ -14,6 +14,7 @@ public class Tile {
     public Color foreground;
     public char representer;
     public ArrayList<Item> items;
+    public int terrainBonus;
     public boolean wall; //Determines whether or not you can pass through
     public boolean isVisible;
     public int type; //Affects various things (e.g. extra damage/dodge or visibility
@@ -27,9 +28,10 @@ public class Tile {
         items = new ArrayList<Item>();
         this.type = type;
         isVisible = true;
+        terrainBonus = 0;
     }
 
-    public Tile(Color background, Color foreground, char x, int type,boolean isEmpty) {
+    public Tile(Color background, Color foreground, char x, int type, boolean isEmpty) {
         this.background = background;
         this.foreground = foreground;
         currentBackground = background;
@@ -38,6 +40,7 @@ public class Tile {
         items = new ArrayList<Item>();
         this.type = type;
         isVisible = true;
+        terrainBonus = 0;
     }
 
     public boolean addItem(Item x) {

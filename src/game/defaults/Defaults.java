@@ -24,9 +24,9 @@ public class Defaults {
     public static final char DEFAULT_PLAYER_CHAR = '@';
     public static final Color FOREGROUND_COLOR = Color.WHITE;
     public static final Color BACKGROUND_COLOR = Color.BLACK;
-    public static final PlayerStat DEFAULT_PLAYER_STATS = new PlayerStat(10, 5, 5, 5, 5);
+    public static final PlayerStat DEFAULT_PLAYER_STATS = new PlayerStat(10,5, 5, 5, 5, 5);
 
-    public static final int SCREENX_SIZE = 80;
+    public static final int SCREENX_SIZE = 81;
     public static final int SCREENY_SIZE = 28;
     public static final int CHUNK_SIZE = 50;
     public static final int GAMESCREEN_SIZEX = 41;
@@ -54,6 +54,8 @@ public class Defaults {
     public static final int left = KeyEvent.VK_LEFT;
     public static final int up = KeyEvent.VK_UP;
     public static final int down = KeyEvent.VK_DOWN;
+    public static final int A = KeyEvent.VK_COMMA;
+    public static final int B = KeyEvent.VK_PERIOD;
 
     //Misc Item related constants
     public static final int maxCarriableItems = 5;
@@ -62,5 +64,11 @@ public class Defaults {
     public static final int pants = 2;
     public static final int shirt = 3;
     public static final int boots = 4;
+    
+    //Inventory maker
+    public static final int MAX_INVENTORY_PER_SCREEN = 10;
+    
+    //LOLOLOLOLOLOL
+    public static final int TRIANGLE_BONUS = 10;
 
 }

@@ -11,20 +11,24 @@ package game.players;
  */
 public class PlayerStat {
 
+    public int maxHp;
     public int hp;
     public int skill; //or known as dexterity
     public int speed;
     public int magicResist;
     public int damageResist;
+    public int strength;
     public int luck;
     public int level;
 
-    public PlayerStat(int hp, int skill, int speed, int magicResist, int damageResist) {
-        this.hp = hp;
+    public PlayerStat(int hp, int skill, int speed, int strength, int magicResist, int damageResist) {
+        this.maxHp = hp;
         this.skill = skill;
         this.speed = speed;
         this.magicResist = magicResist;
         this.damageResist = damageResist;
+        this.hp = maxHp;
+        this.strength = strength;
         checkStats();
     }
 

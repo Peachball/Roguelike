@@ -11,6 +11,6 @@ public class Player {
     }
 
     public Player() {
-        stats = new PlayerStat(0, 0, 0, 0, 0);
+        stats = new PlayerStat(0, 0, 0, 0, 0,0);
     }
 }
