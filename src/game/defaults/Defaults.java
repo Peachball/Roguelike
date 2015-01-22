@@ -56,6 +56,7 @@ public class Defaults {
     public static final int down = KeyEvent.VK_DOWN;
     public static final int A = KeyEvent.VK_COMMA;
     public static final int B = KeyEvent.VK_PERIOD;
+    public static final int Start = KeyEvent.VK_M;
 
     //Misc Item related constants
     public static final int maxCarriableItems = 5;
@@ -70,5 +71,8 @@ public class Defaults {
     
     //LOLOLOLOLOLOL
     public static final int TRIANGLE_BONUS = 10;
+    public static final int CRIT_MULTIPLIER = 3;
+    
+    public static final int LOG_SIZE = 6;
 
 }

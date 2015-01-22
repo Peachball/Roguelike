@@ -2,11 +2,13 @@ package game.screens;
 
 import asciiPanel.AsciiPanel;
 import game.defaults.Defaults;
+import game.items.Item;
 import game.items.ItemSpawner;
 import game.players.Coord;
 import game.players.Human;
 import game.players.Player;
 import game.players.monsters.FOV;
+import game.world.Message;
 import game.world.World;
 import game.world.WorldGenerator;
 import java.awt.Color;
@@ -18,6 +20,7 @@ public class PlayScreen implements Screen {
 
     private World world;
     private Human human;
+    private ArrayList<Message> log;
 
     public PlayScreen() {
         world = WorldGenerator.generateBlankWorld(Defaults.CHUNK_SIZE * 3, Defaults.CHUNK_SIZE * 3);
@@ -28,18 +31,19 @@ public class PlayScreen implements Screen {
         //in the World object right?
         world.addPlayer(human);
         world.updateWorld();
-        human.name = "PEACHBALL THE GOD OF ALL MEN";
+        human.name = "PEACHBALL, THE GOD OF ALL MEN";
+        log = new ArrayList<Message>();
     }
 
     public PlayScreen(String name) {
         this();
         human.name = name;
     }
-    
-    public PlayScreen(World world, Human human, String name){
+
+    public PlayScreen(World world, Human human) {
+        this();
         this.world = world;
         this.human = human;
-        human.name = name;
     }
 
     @Override
@@ -95,23 +99,62 @@ public class PlayScreen implements Screen {
             }
             output.write(world.get(bufferx, buffery).representer, bufferx, buffery, foreground, background);
         }
+
         //Display the player
         output.write('@', (Defaults.GAMESCREEN_SIZEX / 2),
                 (Defaults.GAMESCREEN_SIZEY / 2), Color.BLACK, world.get(human.location).background);
+
         //Stat screen
+        //Should this be hidden away in another method?
         output.write(human.name, Defaults.GAMESCREEN_SIZEX, 0);
         output.write("HP:", Defaults.GAMESCREEN_SIZEX, 1);
-        output.write(Integer.toString(human.stats.maxHp), Defaults.GAMESCREEN_SIZEX + 4, 1);
+        output.write(Integer.toString(human.stats.hp) + "/" + Integer.toString(human.stats.maxHp),
+                Defaults.GAMESCREEN_SIZEX + 4, 1);
         output.write("OTHER STAT?", Defaults.GAMESCREEN_SIZEX, 2);
+        output.write("CURRENT LEVEL: " + Integer.toString(human.stats.level), Defaults.GAMESCREEN_SIZEX, 4);
+        output.write("SKILL:", Defaults.GAMESCREEN_SIZEX, 5);
+        output.write(Integer.toString(human.stats.skill), Defaults.GAMESCREEN_SIZEX + 10, 5);
+        output.write("STRENGTH:", Defaults.GAMESCREEN_SIZEX, 6);
+        output.write(Integer.toString(human.stats.skill), Defaults.GAMESCREEN_SIZEX + 10, 6);
+        output.write("SPEED:", Defaults.GAMESCREEN_SIZEX + 15, 5);
+        output.write(Integer.toString(human.stats.speed), Defaults.GAMESCREEN_SIZEX + 20, 5);
+        output.write("LUCK:", Defaults.GAMESCREEN_SIZEX + 15, 6);
+        output.write(Integer.toString(human.stats.luck), Defaults.GAMESCREEN_SIZEX + 20, 6);
+        output.write("RES", Defaults.GAMESCREEN_SIZEX + 30, 5);
+        output.write(Integer.toString(human.stats.magicResist), Defaults.GAMESCREEN_SIZEX + 36, 5);
+        output.write("DEF", Defaults.GAMESCREEN_SIZEX + 30, 6);
+        output.write(Integer.toString(human.stats.damageResist), Defaults.GAMESCREEN_SIZEX + 36, 6);
+
         //Event log
-        //Items
+        if (!log.isEmpty()) {
+            for (int counter = 0; counter < Defaults.LOG_SIZE; counter++) {
+                output.write(log.get(log.size() - counter).message, 0, output.getHeightInCharacters() - counter, log.get(log.size() - counter).foreground,
+                        log.get(log.size() - counter).background);
+            }
+            while (log.size() > Defaults.LOG_SIZE * 2) {
+                log.remove(0);
+            }
+        }
+
+        //Item on ground
+        if (!world.get(human.location).items.isEmpty()) {
+            Item buffer = world.get(human.location).items.get(0);
+            output.write("ITEM: " + buffer.name, Defaults.GAMESCREEN_SIZEX + 3, 8);
+            output.write("DAMAGE:" + buffer.stats.damage, Defaults.GAMESCREEN_SIZEX + 3, 9);
+            output.write("WEIGHT:" + buffer.stats.weight, Defaults.GAMESCREEN_SIZEX + 3, 10);
+            output.write("ACCURACY: " + buffer.stats.accuracy, Defaults.GAMESCREEN_SIZEX + 15, 9);
+            output.write("CRIT CHANCE: " + buffer.stats.critChance, Defaults.GAMESCREEN_SIZEX + 15, 10);
+            output.write("DEFENSE: " + buffer.stats.damageDefense, Defaults.GAMESCREEN_SIZEX + 3, 11);
+            output.write("RES: " + buffer.stats.magicDefense, Defaults.GAMESCREEN_SIZEX + 3, 12);
+            output.write("RARITY LEVEL: " + buffer.stats.rarity, Defaults.GAMESCREEN_SIZEX + 15, 11);
+        }
     }
 
     @Override
     public Screen response(KeyEvent key) {
         switch (key.getKeyCode()) {
             case KeyEvent.VK_H:
-                return new HelpScreen();
+                return new HelpScreen(world, human);
             case Defaults.up:
                 human.moveUp(); //The x y coord system starts from the top
                 break;
@@ -127,6 +170,8 @@ public class PlayScreen implements Screen {
             case Defaults.A:
                 human.pickup(world);
                 break;
+            case Defaults.Start:
+                return new InventoryScreen(world, human);
         }
         if (human.location.x < Defaults.CHUNK_SIZE) {
             human.location.x += Defaults.CHUNK_SIZE;

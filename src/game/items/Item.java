@@ -6,6 +6,7 @@ import java.awt.Color;
 
 public class Item {
 
+    public int durability;
     public String name;
     public ItemStat stats;
     public char symbol;
@@ -26,6 +27,7 @@ public class Item {
         this.type = type;
         this.brand = BrandList.getBrand(NONE);
         branded = false;
+        durability = 100;
     }
 
     public Item(String name, ItemStat stats, char symbol, int type, Color color) {

@@ -1,7 +1,8 @@
 package game.items;
 
 public class ItemStat {
-
+//I just realized that this only works for weapons/armor/things you wear and not
+//consumables...
     public int damage;
     public int damageDefense;
     public int magicDefense;
@@ -9,6 +10,7 @@ public class ItemStat {
     public int accuracy;
     public int range;
     public int rarity;
+    public int critChance;
 
     public ItemStat(int accuracy, int damage, int weight, int defense, int magDefense, int rarity) {
         this.accuracy = accuracy;
@@ -18,9 +20,10 @@ public class ItemStat {
         magicDefense = magDefense;
         this.rarity = rarity;
         range = 1;
+        critChance = 0;
     }
 
-    public ItemStat(int accuracy, int damage, int weight, int defense, int magDefense, int rarity, int range) {
+    public ItemStat(int accuracy, int damage, int weight, int defense, int magDefense, int rarity, int range, int crit) {
         this.accuracy = accuracy;
         this.damage = damage;
         this.weight = weight;
@@ -28,6 +31,7 @@ public class ItemStat {
         magicDefense = magDefense;
         this.rarity = rarity;
         this.range = range;
+        critChance = crit;
     }
 
     public ItemStat() {
@@ -41,7 +45,8 @@ public class ItemStat {
         }
         return new ItemStat(this.accuracy + stat.accuracy, this.damage + stat.damage,
                 this.weight + stat.weight, this.damageDefense + stat.damageDefense,
-                this.magicDefense + stat.magicDefense, this.rarity + stat.rarity, lowRange);
+                this.magicDefense + stat.magicDefense, this.rarity + stat.rarity, lowRange, 
+                this.critChance + stat.critChance);
     }
 
     public ItemStat add(ItemStat stat) {

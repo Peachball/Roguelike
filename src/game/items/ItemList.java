@@ -5,18 +5,22 @@ import java.awt.Color;
 
 public enum ItemList {
 
-    //
+    //Physical Melee Weapons
     STICK,
-    SWORD;
+    SWORD, AXE;
 
+    //Spells
     public Item item;
 
+    //Stats are as followed: Accuracy, Damage, Weight, PhysicalDef, MagDef, Rarity, Range, Crit
     public static Item getItem(ItemList item) {
         switch (item) {
             case STICK:
-                return new Item("Fists", new ItemStat(1, 0, 0, 0, 0, 0), '/', Defaults.WeaponID, Color.WHITE);
+                return new PhysicalWeapon("Fists", new ItemStat(75, 1, 0, 0, 0, 0, 1, 0), '/', Defaults.WeaponID, Color.WHITE);
             case SWORD:
-                return new Item("Sword", new ItemStat(2, 0, 0, 0, 0, 0), 'v', Defaults.WeaponID, Color.GRAY);
+                return new PhysicalWeapon("Sword", new ItemStat(100, 3, 3, 0, 0, 1, 1, 0), '/', Defaults.WeaponID, Color.GRAY);
+            case AXE:
+                return new PhysicalWeapon("Axe", new ItemStat(85, 5, 6, 0, 0, 1, 1, 0), '>', Defaults.WeaponID, Color.GRAY);
         }
         return new Item("BUG", new ItemStat(0, 0, 0, 0, 0, 0), '.', Defaults.WeaponID, Color.WHITE);
     }

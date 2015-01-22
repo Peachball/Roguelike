@@ -7,6 +7,9 @@ package game.screens;
 
 import asciiPanel.AsciiPanel;
 import game.defaults.Defaults;
+import game.players.Coord;
+import game.players.Human;
+import game.world.WorldGenerator;
 import java.awt.event.KeyEvent;
 
 /**
@@ -50,7 +53,8 @@ public class StartScreen implements Screen {
                     case 0:
                         return new PlayScreen();
                     case 1:
-                        return new HelpScreen();
+                        return new HelpScreen(WorldGenerator.generateBlankWorld(Defaults.CHUNK_SIZE * 3, Defaults.CHUNK_SIZE * 3),
+                                new Human(new Coord(Defaults.CHUNK_SIZE, Defaults.CHUNK_SIZE)));
                 }
             case KeyEvent.VK_UP:
                 selection--;

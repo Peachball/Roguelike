@@ -1,0 +1,82 @@
+Attack Speed:
+If a character's Strength is less than than the weight of the weapon they have equipped, then the attack speed is reduced by the amount by which the weight exceeds their 
+Strength. Otherwise, attack speed is equal to the character's Speed.
+
+If WWT = Strength, then AS = Speed
+If WWT > Strength, then AS = Speed - (Weapon Weight - Strength)
+
+Repeated Attacks:
+AS of attacker is 4+ the AS of defender
+
+Hit Rate:
+ Hit Rate = Weapon Accuracy + Skill x 2 + Luck / 2
+            + Support Bonus + S-Rank Bonus + Tactician Bonus
+
+
+Evade:
+ Evade = Attack Speed x 2 + Luck + Terrain Bonus
+         + Support Bonus + Tactician Bonus
+
+
+Accuracy:
+Accuracy is used in battle to determine how likely a character is to hit another character, using the difference between the attacker's hit rate and the defender's evade. 
+In-game information windows may refer to Accuracy as "Hit", e.g. FE7
+FE1, FE2, FE3:
+ Accuracy = Hit Rate (Attacker) - Evade (Defender)
+  ~All: Capped to between 0 and 100
+
+FE4, FE5, FE6, FE7, FE8, FE9:
+ Accuracy = Hit Rate (Attacker) - Evade (Defender) + Triangle Bonus
+  ~FE5:             Capped to between 1 and 99
+  ~All other games: Capped to between 0 and 100
+
+Attack Power:
+The formula is similar to last time, except for a few additional complexities. Light 
+Brand and the Wind Sword are treated as physical unless used at range when they are 
+calculated using a special formula below; Runesword however is always calculated 
+with the special formula. In addition, the Weapon effectiveness depends on the 
+nationality of the game version used. The Japanese version sticking with the 
+classical 3 or 1 (except for the dragon slaying weapons other than Aureola which use 2) 
+and the western versions moving to a new 2 for effective and 1 otherwise. In addition 
+the Weapon Triangle bonus works as before (+1 for strong, -1 for weak and 0 otherwise) 
+except that when using Swordreaver, Swordslayer, Lancereaver and Axereaver it becomes +2 
+or -2 for both weapons, unless both parties are wielding one of them in which case it 
+reverts to the normal +1, -1. Also note that for weapon triangle purposes, Light Brand and Wind Sword used indirectly count as light and anima magic respectively, 
+while Runeswordis always treated as dark magic.
+
+Physical Attack = Strength + (Weapon Might + Weapon Triangle Bonus) X Weapon effectiveness + Support Bonus
+
+Special Case (see above) = Strength / 2 + (Weapon Might + Weapon Triangle Bonus) X Weapon effectiveness + Support Bonus
+
+
+Defense Power (defense):
+Defense power is a measure of the total damage a character can negate from enemy attacks.
+The formula used depends on the game; terrain bonuses and a character's Defense or Resistance are normally the most important factors.
+Physical:
+FE6, FE7, FE8, FE9, FE10:
+ DP = Terrain Bonus + Defense
+      + Support Bonus
+       ~FE7's Light Brand and Runesword are counted as magical attacks regardless of the range being attacked from.
+       ~FE9's Sonic Sword, Flame Lance, Bolt Axe and Runesword are also counted as magical attacks regardless of the range being attacked from.
+Magic:
+FE6, FE7, FE8, FE9, FE10, FE11:
+ DP = Terrain Bonus + Resistance
+      + Support Bonus
+
+
+Actual Damage:
+Damage is the amount of health an attack takes away from a defending unit if the attack hits. It depends on the attacker's attack power and the defender's Resistance or Defense (for magical or physical attacks respectively.).
+Damage = Attack Power (attacker) - Defense Power (defender)
+
+Critical Damage:
+ActualDamage x 3 (simple)
+
+Critical Rate:
+ Critical Rate = Weapon Critical + Skill / 2
+                 + Support Bonus + Class Critical + S-Rank Bonus
+
+Critical Evade:
+Critical Evade = Luck + Support Bonus + Tactician Bonus
+
+Crit Chance (the actual number you should get...):
+Critical = Critical Rate - Critical Evade

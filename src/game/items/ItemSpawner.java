@@ -11,7 +11,6 @@ import java.util.Collections;
 
 public class ItemSpawner {
 
-    
     //IDK what I'm doing here...
     //need ideas...
     public static void generateItems(World world, int rarityConstant) {
@@ -19,12 +18,14 @@ public class ItemSpawner {
             for (int y = 0; y < world.getYSize(); y++) {
                 ArrayList<ItemList> buffer = new ArrayList<ItemList>(Arrays.asList(ItemList.values()));
                 Collections.shuffle(buffer);
-                for (int counter = 0;counter<buffer.size();counter++) {
+                for (int counter = 0; counter < buffer.size(); counter++) {
                     //Test case:
-                    if (Math.random()>0.99) {
-                        Tile asdf = world.get(x,y);
-                        asdf.addItem(getItem(STICK));
-                        world.set(new Coord(x,y), asdf);
+                    ArrayList<ItemList> items = new ArrayList<ItemList>(Arrays.asList(ItemList.values()));
+                    Collections.shuffle(items);
+                    if (Math.random() > 0.99) {
+                        Tile asdf = world.get(x, y);
+                        asdf.addItem(getItem(items.get(0)));
+                        world.set(new Coord(x, y), asdf);
                         break;
                     }
                 }

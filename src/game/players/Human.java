@@ -54,12 +54,7 @@ public class Human extends Player {
         originalLocation.x--;
     }
 
-    //LOL NO ERROR CHECKING
-    private void switchItems(int position, World world) {
-        Item buffer = items[position];
-        items[position] = world.get(this.location).items.get(0);
-        world.get(this.location).items.set(0, buffer);
-    }
+
 
     public void switchItem(int position, int position2) {
         if (position >= inventory.size() || position2 >= items.length) {
@@ -87,5 +82,6 @@ public class Human extends Player {
 
         inventory.add(world.get(this.location).items.get(0));
         world.get(this.location).items.remove(0);
+        world.get(this.location).update();
     }
 }
