@@ -53,8 +53,7 @@ public class StartScreen implements Screen {
                     case 0:
                         return new PlayScreen();
                     case 1:
-                        return new HelpScreen(WorldGenerator.generateBlankWorld(Defaults.CHUNK_SIZE * 3, Defaults.CHUNK_SIZE * 3),
-                                new Human(new Coord(Defaults.CHUNK_SIZE, Defaults.CHUNK_SIZE)));
+                        return new HelpScreen();
                 }
             case KeyEvent.VK_UP:
                 selection--;

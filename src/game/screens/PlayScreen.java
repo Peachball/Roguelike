@@ -25,14 +25,15 @@ public class PlayScreen implements Screen {
     public PlayScreen() {
         world = WorldGenerator.generateBlankWorld(Defaults.CHUNK_SIZE * 3, Defaults.CHUNK_SIZE * 3);
         ItemSpawner.generateItems(world, Defaults.RARITY_CONSTANT);
-        human = new Human(new Coord(Defaults.CHUNK_SIZE + 1, Defaults.CHUNK_SIZE + 1));
+        human = new Human(new Coord(Defaults.CHUNK_SIZE + 1, Defaults.CHUNK_SIZE + 1), world);
 
         //Whatever happens to human in this class will also affect what happens to the player
         //in the World object right?
-        world.addPlayer(human);
+        world.player1 = human;
+
         world.updateWorld();
         human.name = "PEACHBALL, THE GOD OF ALL MEN";
-        log = new ArrayList<Message>();
+        log = world.log;
     }
 
     public PlayScreen(String name) {
@@ -42,8 +43,10 @@ public class PlayScreen implements Screen {
 
     public PlayScreen(World world, Human human) {
         this();
-        this.world = world;
-        this.human = human;
+        if (world != null && human != null) {
+            this.world = world;
+            this.human = human;
+        }
     }
 
     @Override
@@ -89,15 +92,19 @@ public class PlayScreen implements Screen {
             Player buffer = world.players.get(counter);
             int buffery = human.location.y - buffer.location.y + (Defaults.GAMESCREEN_SIZEY / 2);
             int bufferx = human.location.x - buffer.location.x + (Defaults.GAMESCREEN_SIZEX / 2);
-            Color foreground = world.get(bufferx, buffery).currentBackground;
-            Color background = world.get(bufferx, buffery).currentForeground;
+            Color background = buffer.background;
+            Color foreground = buffer.foreground;
+            if (background == null) {
+                background = world.get(buffer.location).currentBackground;
+            }
+
             if (bufferx < 0 || bufferx > Defaults.GAMESCREEN_SIZEX) {
                 continue;
             }
             if (buffery < 0 || buffery > Defaults.GAMESCREEN_SIZEY) {
                 continue;
             }
-            output.write(world.get(bufferx, buffery).representer, bufferx, buffery, foreground, background);
+            output.write(buffer.representer, bufferx, buffery, foreground, background);
         }
 
         //Display the player
@@ -139,14 +146,14 @@ public class PlayScreen implements Screen {
         //Item on ground
         if (!world.get(human.location).items.isEmpty()) {
             Item buffer = world.get(human.location).items.get(0);
-            output.write("ITEM: " + buffer.name, Defaults.GAMESCREEN_SIZEX + 3, 8);
-            output.write("DAMAGE:" + buffer.stats.damage, Defaults.GAMESCREEN_SIZEX + 3, 9);
-            output.write("WEIGHT:" + buffer.stats.weight, Defaults.GAMESCREEN_SIZEX + 3, 10);
-            output.write("ACCURACY: " + buffer.stats.accuracy, Defaults.GAMESCREEN_SIZEX + 15, 9);
-            output.write("CRIT CHANCE: " + buffer.stats.critChance, Defaults.GAMESCREEN_SIZEX + 15, 10);
-            output.write("DEFENSE: " + buffer.stats.damageDefense, Defaults.GAMESCREEN_SIZEX + 3, 11);
-            output.write("RES: " + buffer.stats.magicDefense, Defaults.GAMESCREEN_SIZEX + 3, 12);
-            output.write("RARITY LEVEL: " + buffer.stats.rarity, Defaults.GAMESCREEN_SIZEX + 15, 11);
+            output.write("ITEM: " + buffer.name, Defaults.GAMESCREEN_SIZEX, 8);
+            output.write("DAMAGE:" + buffer.stats.damage, Defaults.GAMESCREEN_SIZEX, 9);
+            output.write("WEIGHT:" + buffer.stats.weight, Defaults.GAMESCREEN_SIZEX, 10);
+            output.write("ACCURACY: " + buffer.stats.accuracy, Defaults.GAMESCREEN_SIZEX + 12, 9);
+            output.write("CRIT CHANCE: " + buffer.stats.critChance, Defaults.GAMESCREEN_SIZEX + 12, 10);
+            output.write("DEFENSE: " + buffer.stats.damageDefense, Defaults.GAMESCREEN_SIZEX, 11);
+            output.write("RES: " + buffer.stats.magicDefense, Defaults.GAMESCREEN_SIZEX, 12);
+            output.write("RARITY LEVEL: " + buffer.stats.rarity, Defaults.GAMESCREEN_SIZEX + 12, 11);
         }
     }
 

@@ -11,8 +11,10 @@ public class World {
     public ArrayList<ArrayList<Tile>> world;
     public ArrayList<Player> players;
     public Human player1;
+    public ArrayList<Message> log;
 
     public World(Tile[][] world) {
+        log = new ArrayList<Message>();
         this.world = new ArrayList<ArrayList<Tile>>();
         players = new ArrayList<Player>();
         for (int x = 0; x < world[0].length; x++) {
@@ -106,10 +108,9 @@ public class World {
         world.set(location.x, buffer);
         return true;
     }
-    
-    public boolean addPlayer(Player player){
+
+    public boolean addPlayer(Player player) {
         return players.add(player);
     }
-    
 
 }

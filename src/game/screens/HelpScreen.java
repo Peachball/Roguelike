@@ -14,6 +14,10 @@ public class HelpScreen implements Screen {
         currentWorld = world;
         currentPlayer = player;
     }
+    public HelpScreen(){
+        currentWorld = null
+                ;currentPlayer = null;
+    }
 
     public void display(AsciiPanel output) {
         output.writeCenter("WELCOME TO THE HELP MENU", 1);

@@ -36,5 +36,16 @@ public class FOV {
         }
         Collections.sort(vision);
     }
+    
+    public boolean isSeen(Coord location){
+        Collections.sort(vision);
+        if(Collections.binarySearch(vision,location) < 0){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+    
 
 }

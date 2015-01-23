@@ -32,6 +32,12 @@ public class PlayerStat {
         checkStats();
     }
 
+    public PlayerStat(int hp, int skill, int speed, int strength, int magicResist, int damageResist, int luck, int level) {
+        this(hp, skill, speed, strength, magicResist, damageResist);
+        this.luck = luck;
+        this.level = level;
+    }
+
     public void checkStats() {
         if (hp < 0) {
             hp = 0;

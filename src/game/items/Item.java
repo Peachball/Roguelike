@@ -11,11 +11,13 @@ public class Item {
     public ItemStat stats;
     public char symbol;
     public Color foreground;
+    
+    //ITEM TYPE IS SUPER IMPORTANT
+    //CHECK DEFAULTS FOR DETAILS ON WHICH ITEM IS WHICH
     public int type;
     public Brand brand;
     public boolean branded;
 
-    
     //Once a brand has been assigned to an item, it is not removable...
     //Should this be changed? I don't think so, as you shouldn't be able to change
     // brands anyways...
@@ -35,29 +37,41 @@ public class Item {
         foreground = color;
 
     }
-    
+
     //WARNING: ONCE THIS IS CALLED, THE ITEM WILL FOREVER HAVE THIS BRAND...
-    public void setBrand(Brand brand){
-        if(!branded){
+    public void setBrand(Brand brand) {
+        if (!branded) {
             this.brand = brand;
             stats.add(brand.stats);
             name = brand.name + " " + name;
         }
-        
+
         branded = true;
     }
-    
-    public void update(){
+
+    public void update() {
         //Possibly add a function to determine the color of a rare item?
-        if(stats.rarity>Defaults.LOW_RARITY){
+        if (stats.rarity > Defaults.LOW_RARITY) {
             foreground = Defaults.LOW_RARITY_COLOR;
         }
-        if(stats.rarity>Defaults.MEDIUM_RARITY){
+        if (stats.rarity > Defaults.MEDIUM_RARITY) {
             foreground = Defaults.MEDIUM_RARITY_COLOR;
         }
-        if(stats.rarity>Defaults.HIGH_RARITY){
+        if (stats.rarity > Defaults.HIGH_RARITY) {
             foreground = Defaults.HIGH_RARITY_COLOR;
         }
     }
 
+    public static boolean isBetter(Item one, Item two) {
+        if (one.type == Defaults.SwordID && two.type == Defaults.AxeID) {
+            return true;
+        }
+        if (one.type == Defaults.AxeID && two.type == Defaults.LanceID) {
+            return true;
+        }
+        if (one.type == Defaults.LanceID && two.type == Defaults.SwordID) {
+            return true;
+        }
+        return false;
+    }
 }

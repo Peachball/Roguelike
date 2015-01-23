@@ -22,11 +22,22 @@ public class Mechanics {
         return (ASCalc(defender, weapon) * 2) + defender.stats.luck + currentTile.terrainBonus;
     }
 
+    private static int evadeRate(Player defender, Item weapon) {
+        return (ASCalc(defender, weapon) * 2) + defender.stats.luck;
+    }
+
     public static int accuracy(Player attacker, Item attackWeapon, Player defender, Item defendWeapon, Tile defenderTile, boolean triangle) {
         if (!triangle) {
             return hitRate(attacker, attackWeapon) - evadeRate(defender, defendWeapon, defenderTile);
         }
         return hitRate(attacker, attackWeapon) - evadeRate(defender, defendWeapon, defenderTile) + Defaults.TRIANGLE_BONUS;
+    }
+
+    public static int accuracy(Player attacker, Item attackWeapon, Player defender, Item defendWeapon, boolean triangle) {
+        if (!triangle) {
+            return hitRate(attacker, attackWeapon) - evadeRate(defender, defendWeapon);
+        }
+        return hitRate(attacker, attackWeapon) - evadeRate(defender, defendWeapon) + Defaults.TRIANGLE_BONUS;
     }
 
     private static int attackPower(Player attacker, Item weapon, boolean triangle) {
@@ -44,6 +55,14 @@ public class Mechanics {
         return defendTile.terrainBonus + defender.stats.magicResist;
     }
 
+    private static int pDefensePower(Player defender) {
+        return defender.stats.damageResist;
+    }
+
+    private static int mDefensePower(Player defender) {
+        return defender.stats.magicResist;
+    }
+
     public static int damage(Player attacker, Item weapon, Player defender, Tile defendTile, boolean triangle) {
         if (weapon instanceof PhysicalWeapon) {
             return attackPower(attacker, weapon, triangle) - pDefensePower(defender, defendTile);
@@ -52,17 +71,27 @@ public class Mechanics {
         }
     }
 
+    public static int damage(Player attacker, Item weapon, Player defender, boolean triangle) {
+        if (weapon instanceof PhysicalWeapon) {
+            return attackPower(attacker, weapon, triangle) - pDefensePower(defender);
+        } else {
+            return attackPower(attacker, weapon, triangle) - mDefensePower(defender);
+        }
+    }
+
     private static int critRate(Player attacker, Item weapon) {
         return weapon.stats.critChance + (attacker.stats.skill / 2);
     }
-    private static int critEvade (Player defender){
+
+    private static int critEvade(Player defender) {
         return defender.stats.luck;
     }
-    public static int critChance(Player attacker, Item weapon, Player defendant){
+
+    public static int critChance(Player attacker, Item weapon, Player defendant) {
         return critRate(attacker, weapon) - critEvade(defendant);
     }
-    
-    public static int critDamage(Player attacker, Item weapon, Player defender, Tile defendTile, boolean triangle){
-        return damage(attacker, weapon,defender,defendTile,triangle) * Defaults.CRIT_MULTIPLIER;
+
+    public static int critDamage(Player attacker, Item weapon, Player defender, boolean triangle) {
+        return damage(attacker, weapon, defender, triangle) * Defaults.CRIT_MULTIPLIER;
     }
 }

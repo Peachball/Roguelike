@@ -16,11 +16,11 @@ public enum ItemList {
     public static Item getItem(ItemList item) {
         switch (item) {
             case STICK:
-                return new PhysicalWeapon("Fists", new ItemStat(75, 1, 0, 0, 0, 0, 1, 0), '/', Defaults.WeaponID, Color.WHITE);
+                return new PhysicalWeapon("Fists", new ItemStat(75, 1, 0, 0, 0, 0, 1, 0), '/', Defaults.SwordID, Color.WHITE);
             case SWORD:
-                return new PhysicalWeapon("Sword", new ItemStat(100, 3, 3, 0, 0, 1, 1, 0), '/', Defaults.WeaponID, Color.GRAY);
+                return new PhysicalWeapon("Sword", new ItemStat(100, 3, 3, 0, 0, 1, 1, 0), '/', Defaults.SwordID, Color.GRAY);
             case AXE:
-                return new PhysicalWeapon("Axe", new ItemStat(85, 5, 6, 0, 0, 1, 1, 0), '>', Defaults.WeaponID, Color.GRAY);
+                return new PhysicalWeapon("Axe", new ItemStat(85, 5, 6, 0, 0, 1, 1, 0), '>', Defaults.AxeID, Color.GRAY);
         }
         return new Item("BUG", new ItemStat(0, 0, 0, 0, 0, 0), '.', Defaults.WeaponID, Color.WHITE);
     }
