@@ -3,12 +3,14 @@ Exactly as it sounds...
 
 
 #TODO List:
- -display corresponding player item, to the item on the ground, on playscreen
+
+
+1. display corresponding player item, to the item on the ground, on playscreen
  
- -display help toolbar thing for items in inventory screen
  
- -establish a way to determine field of view
- 
- -add more variety to the map (e.g. dungeon spawners, etc.)
+2. establish a way to determine field of view
+
+3. add more variety to the map (e.g. dungeon spawners, etc.)
+4. Add fair, balanced item generation.
  
  
