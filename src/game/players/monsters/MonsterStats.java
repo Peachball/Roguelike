@@ -14,4 +14,12 @@ public enum MonsterStats {
         }
         return null;
     }
+    
+    public static int getMonsterRarity(MonsterStats monster){
+        switch(monster){
+            case KOBOLD:
+                return 0;
+        }
+        return 0;
+    }
 }

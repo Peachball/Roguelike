@@ -1,22 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package game.world;
 
+import game.defaults.Defaults;
+import game.players.Coord;
+import game.players.Player;
 import static game.world.TileList.*;
 
-/**
- *
- * @author Chen
- */
 public class WorldGenerator {
 
     public static int worldType;
 
     public static void setSettings(int specifications) {
         worldType = specifications;
+    }
+
+    static {
+        worldType = 0;
     }
 
     public static World generateBlankWorld(int sizex, int sizey) {
@@ -48,7 +46,6 @@ public class WorldGenerator {
         return buffer;
     }
 
-    
     //Add actual chunk generator in these methods later...
     public static World extendRight(int sizex, World world) {
         Tile[][] buffer = generateBlankChunk(sizex, world.getYSize());
@@ -81,5 +78,42 @@ public class WorldGenerator {
     public static Tile[][] generateChunk() {
         //Work on this later
         return new Tile[1][1];
+    }
+
+    public static World generateChunks(World world) {
+        for (int counter = 0; counter < world.players.size(); counter++) {
+            if (world.players.get(counter).location.x < Defaults.CHUNK_SIZE) {
+                WorldGenerator.extendLeft(Defaults.CHUNK_SIZE, world);
+                move(world, new Coord(Defaults.CHUNK_SIZE, 0));
+            } else if (world.players.get(counter).location.x > world.getXSize() - Defaults.CHUNK_SIZE) {
+                WorldGenerator.extendRight(Defaults.CHUNK_SIZE, world);
+            } else if (world.players.get(counter).location.y < Defaults.CHUNK_SIZE) {
+                WorldGenerator.extendUp(Defaults.CHUNK_SIZE, world);
+                move(world, new Coord(0, Defaults.CHUNK_SIZE));
+            } else if (world.players.get(counter).location.y > world.getYSize() - Defaults.CHUNK_SIZE) {
+                WorldGenerator.extendDown(Defaults.CHUNK_SIZE, world);
+            }
+        }
+        if (world.player1 != null) {
+            if (world.player1.location.x < Defaults.CHUNK_SIZE) {
+                WorldGenerator.extendLeft(Defaults.CHUNK_SIZE, world);
+                move(world, new Coord(Defaults.CHUNK_SIZE, 0));
+            } else if (world.player1.location.x > world.getXSize() - Defaults.CHUNK_SIZE) {
+                WorldGenerator.extendRight(Defaults.CHUNK_SIZE, world);
+            } else if (world.player1.location.y < Defaults.CHUNK_SIZE) {
+                WorldGenerator.extendUp(Defaults.CHUNK_SIZE, world);
+                move(world, new Coord(0, Defaults.CHUNK_SIZE));
+            } else if (world.player1.location.y > world.getYSize() - Defaults.CHUNK_SIZE) {
+                WorldGenerator.extendDown(Defaults.CHUNK_SIZE, world);
+            }
+        }
+        return world;
+    }
+
+    private static void move(World world, Coord coord) {
+        for (Player player : world.players) {
+            player.location = new Coord(player.location.x + coord.x, player.location.y + coord.y);
+        }
+        world.player1.location = new Coord(world.player1.location.x + coord.x, world.player1.location.y + coord.y);
     }
 }

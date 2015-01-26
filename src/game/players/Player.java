@@ -18,7 +18,7 @@ public class Player {
     public Color background;
     public Coord location;
     public World world;
-    Item currentWeapon;
+    public Item currentWeapon;
 
     public Player(PlayerStat startStat, char a, Color foreground, Color background, World world) {
         stats = startStat;
@@ -50,39 +50,78 @@ public class Player {
         return false;
     }
 
-    public void moveUp() {
-        if (!isEmpty(new Coord(location.x, location.y - 1))) {
+    public boolean moveUp() {
+        if (!canUp()) {
             attack(new Coord(location.x, location.y - 1), currentWeapon);
-            return;
+            return false;
         }
         location.y--;
+        return true;
     }
 
-    public void moveDown() {
-        if (!isEmpty(new Coord(location.x, location.y + 1))) {
+    public boolean moveDown() {
+        if (!canDown()) {
             attack(new Coord(location.x, location.y + 1), currentWeapon);
-            return;
+            return false;
         }
         location.y++;
+        return true;
     }
 
-    public void moveRight() {
-        if (!isEmpty(new Coord(location.x + 1, location.y))) {
+    public boolean moveRight() {
+        if (!canRight()) {
             attack(new Coord(location.x + 1, location.y), currentWeapon);
-            return;
+            return false;
         }
         location.x++;
+        return true;
     }
 
-    public void moveLeft() {
-        if (!isEmpty(new Coord(location.x - 1, location.y))) {
-            attack(new Coord(location.x - 1, location.y - 1), currentWeapon);
-            return;
+    public boolean moveLeft() {
+        if (!canLeft()) {
+            attack(new Coord(location.x - 1, location.y), currentWeapon);
+            return false;
         }
         location.x--;
+        return true;
+    }
+
+    public boolean canRight() {
+        return isEmpty(new Coord(location.x + 1, location.y));
+    }
+
+    public boolean canLeft() {
+        return isEmpty(new Coord(location.x - 1, location.y));
+    }
+
+    public boolean canUp() {
+        return isEmpty(new Coord(location.x, location.y - 1));
+    }
+
+    public boolean canDown() {
+        return isEmpty(new Coord(location.x, location.y + 1));
+    }
+
+    public Coord up() {
+        return new Coord(location.x, location.y - 1);
+    }
+
+    public Coord down() {
+        return new Coord(location.x, location.y + 1);
+    }
+
+    public Coord right() {
+        return new Coord(location.x + 1, location.y);
+    }
+
+    public Coord left() {
+        return new Coord(location.x - 1, location.y);
     }
 
     public void attack(Coord location, Item weapon) {
+        if (weapon == null) {
+            return;
+        }
         Player buffer = world.players.get(Collections.binarySearch(world.players, new Player(location), new PlayerSorter()));
         if (buffer == null) {
             return;
@@ -91,13 +130,16 @@ public class Player {
     }
 
     public void attack(Player player, Item weapon, boolean triangle) {
-        if (player == null) {
+        if (player == null || weapon == null) {
             return;
         }
         player.stats.hp = player.stats.hp - Mechanics.damage(this, weapon, player, triangle);
     }
 
     public void attack(Player player2) {
+        if (currentWeapon == null || player2 == null) {
+            return;
+        }
         if (Item.isBetter(currentWeapon, player2.currentWeapon)) {
             attack(player2, currentWeapon, true);
         } else {

@@ -94,4 +94,15 @@ public class Mechanics {
     public static int critDamage(Player attacker, Item weapon, Player defender, boolean triangle) {
         return damage(attacker, weapon, defender, triangle) * Defaults.CRIT_MULTIPLIER;
     }
+
+    public static int attackTimes(Player attacker, Item weapon, Player defender, Item defendWeapon) {
+        int diff = ASCalc(attacker, weapon) - ASCalc(defender, defendWeapon);
+        if (diff > 8) {
+            return 4;
+        }
+        if (diff > 4) {
+            return 2;
+        }
+        return 1;
+    }
 }

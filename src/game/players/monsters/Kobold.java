@@ -5,10 +5,11 @@
  */
 package game.players.monsters;
 
+import static game.items.ItemList.STICK;
+import static game.items.ItemList.getItem;
 import game.players.Coord;
 import game.players.Human;
 import game.players.Player;
-import game.players.PlayerStat;
 import static game.players.monsters.MonsterStats.KOBOLD;
 import game.world.World;
 import java.awt.Color;
@@ -22,45 +23,53 @@ public class Kobold extends Player implements AI {
     private World world;
     private FOV fov;
 
-    public Kobold(World world, Human human) {
-        super(MonsterStats.getMonsterStat(KOBOLD), 'm', Color.RED,world);
+    public Kobold(World world, Coord start) {
+        super(MonsterStats.getMonsterStat(KOBOLD), 'm', Color.RED, world);
+        currentWeapon = getItem(STICK);
         this.world = world;
-        fov.generateFOV(true);
-    }
-
-    public void update() {
+        location = start;
+        fov = new FOV(location,5);
         fov.generateFOV(true);
     }
 
     @Override
-    public void moveNext() {
+    public void move() {
+        fov.generateFOV(true);
         if (fov.isSeen(world.player1.location)) {
 
             int shortestDistance = Integer.MAX_VALUE;
+            int direction = 1;
             //IDEALLY...Ben would be writing an AI for this guy
             //BUT...We live in a dark dark world
-            moveUp();
-            if (shortestDistance > Coord.manhattanDistance(world.player1.location, location)) {
-                shortestDistance = Coord.manhattanDistance(world.player1.location, location);
-            } else {
-                moveDown();
+            if (shortestDistance > Coord.manhattanDistance(world.player1.up(), location)) {
+                shortestDistance = Coord.manhattanDistance(world.player1.up(), location);
+                direction = 1;
             }
-            moveRight();
-            if (shortestDistance > Coord.manhattanDistance(world.player1.location, location)) {
-                shortestDistance = Coord.manhattanDistance(world.player1.location, location);
-            } else {
-                moveLeft();
+            if (shortestDistance > Coord.manhattanDistance(world.player1.right(), location)) {
+                shortestDistance = Coord.manhattanDistance(world.player1.right(), location);
+                direction = 2;
             }
-            moveDown();
-            if (shortestDistance > Coord.manhattanDistance(world.player1.location, location)) {
-                shortestDistance = Coord.manhattanDistance(world.player1.location, location);
-            } else {
-                moveUp();
+            if (shortestDistance > Coord.manhattanDistance(world.player1.down(), location)) {
+                shortestDistance = Coord.manhattanDistance(world.player1.down(), location);
+                direction = 3;
             }
-            moveLeft();
-            if (shortestDistance > Coord.manhattanDistance(world.player1.location, location)) {
-            } else {
-                moveRight();
+            if (shortestDistance > Coord.manhattanDistance(world.player1.left(), location)) {
+                shortestDistance = Coord.manhattanDistance(world.player1.left(), location);
+                direction = 4;
+            }
+            switch (direction) {
+                case 1:
+                    moveUp();
+                    break;
+                case 2:
+                    moveRight();
+                    break;
+                case 3:
+                    moveDown();
+                    break;
+                case 4:
+                    moveLeft();
+                    break;
             }
         }
     }

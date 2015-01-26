@@ -34,27 +34,39 @@ public class Human extends Player {
     }
 
     @Override
-    public void moveUp() {
-        location.y--;
-        originalLocation.y--;
+    public boolean moveUp() {
+        boolean buffer = super.moveUp();
+        if (buffer) {
+            originalLocation.y--;
+        }
+        return buffer;
     }
 
     @Override
-    public void moveDown() {
-        location.y++;
-        originalLocation.y++;
+    public boolean moveDown() {
+        boolean buffer = super.moveDown();
+        if (buffer) {
+            originalLocation.y++;
+        }
+        return buffer;
     }
 
     @Override
-    public void moveRight() {
-        location.x++;
-        originalLocation.x++;
+    public boolean moveRight() {
+        boolean buffer = super.moveRight();
+        if (buffer) {
+            originalLocation.x++;
+        }
+        return buffer;
     }
 
     @Override
-    public void moveLeft() {
-        location.x--;
-        originalLocation.x--;
+    public boolean moveLeft() {
+        boolean buffer = super.moveLeft();
+        if (buffer) {
+            originalLocation.x--;
+        }
+        return buffer;
     }
 
     public void switchItem(int position, int position2) {

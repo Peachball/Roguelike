@@ -8,6 +8,7 @@ import game.players.Coord;
 import game.players.Human;
 import game.players.Player;
 import game.players.monsters.FOV;
+import game.players.monsters.MonsterSpawner;
 import game.world.Message;
 import game.world.World;
 import game.world.WorldGenerator;
@@ -26,6 +27,7 @@ public class PlayScreen implements Screen {
         world = WorldGenerator.generateBlankWorld(Defaults.CHUNK_SIZE * 3, Defaults.CHUNK_SIZE * 3);
         ItemSpawner.generateItems(world, Defaults.RARITY_CONSTANT);
         human = new Human(new Coord(Defaults.CHUNK_SIZE + 1, Defaults.CHUNK_SIZE + 1), world);
+        MonsterSpawner.spawnMonsters(world,0);
 
         //Whatever happens to human in this class will also affect what happens to the player
         //in the World object right?
@@ -87,7 +89,7 @@ public class PlayScreen implements Screen {
             }
         }
 
-        //Display all the creatures:halp plox
+        //Display the creatures
         for (int counter = 0; counter < world.players.size(); counter++) {
             Player buffer = world.players.get(counter);
             int buffery = human.location.y - buffer.location.y + (Defaults.GAMESCREEN_SIZEY / 2);
@@ -180,20 +182,7 @@ public class PlayScreen implements Screen {
             case Defaults.Start:
                 return new InventoryScreen(world, human);
         }
-        if (human.location.x < Defaults.CHUNK_SIZE) {
-            human.location.x += Defaults.CHUNK_SIZE;
-            WorldGenerator.extendLeft(Defaults.CHUNK_SIZE, world);
-        }
-        if (world.getXSize() - human.location.x < Defaults.CHUNK_SIZE) {
-            WorldGenerator.extendRight(Defaults.CHUNK_SIZE, world);
-        }
-        if (human.location.y < Defaults.CHUNK_SIZE) {
-            human.location.y += Defaults.CHUNK_SIZE;
-            WorldGenerator.extendUp(Defaults.CHUNK_SIZE, world);
-        }
-        if (world.getYSize() - human.location.y < Defaults.CHUNK_SIZE) {
-            WorldGenerator.extendDown(Defaults.CHUNK_SIZE, world);
-        }
+        WorldGenerator.generateChunks(world);
         return this;
     }
 

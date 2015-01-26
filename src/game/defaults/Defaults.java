@@ -79,5 +79,8 @@ public class Defaults {
     public static final int CRIT_MULTIPLIER = 3;
 
     public static final int LOG_SIZE = 6;
+    
+    //Monster spawn nums
+    public static final int LOW_LEVEL_MONSTERS = 0;
 
 }
