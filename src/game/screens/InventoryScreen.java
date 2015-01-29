@@ -35,10 +35,6 @@ public class InventoryScreen implements Screen {
         if (maxMarker > Defaults.MAX_INVENTORY_PER_SCREEN) {
             maxMarker = Defaults.MAX_INVENTORY_PER_SCREEN;
         }
-        //List the appropriate items in the screen
-        if (human.inventory.isEmpty()) {
-            output.write("LOL YOU GOT NO ITEMS BRAH", 1, 1);
-        }
         if (equippedScreen) {
             output.write("Equipped Items:              ", 0, 0);
             if (emarker >= human.items.length) {
@@ -58,12 +54,16 @@ public class InventoryScreen implements Screen {
                 output.write(human.inventory.get(counter + position).name, 1, counter + 1);
                 output.write(Integer.toString(human.inventory.get(counter + position).durability), 10, counter + 1);
             }
+
+            //List the appropriate items in the screen
+            if (human.inventory.isEmpty()) {
+                output.write("LOL YOU GOT NO ITEMS BRAH", 1, 1);
+            }
         }
         //Add the cool arrow
         output.write('>', 0, marker + 1);
 
         //Add player stats
-        //Stat screen
         //Should this be hidden away in another method?
         output.write(human.name, Defaults.GAMESCREEN_SIZEX, 0);
         output.write("HP:", Defaults.GAMESCREEN_SIZEX, 1);
@@ -89,7 +89,7 @@ public class InventoryScreen implements Screen {
             Item buffer;
             if (equippedScreen && human.items[emarker] != null) {
                 buffer = human.items[emarker];
-            } else {
+            } else if(!equippedScreen) {
                 buffer = human.inventory.get(position + marker);
             }
             output.write("ITEM: " + buffer.name, Defaults.GAMESCREEN_SIZEX, 8);
@@ -127,23 +127,15 @@ public class InventoryScreen implements Screen {
                 equippedScreen = !equippedScreen;
                 break;
             case Defaults.A:
+                human.equip(marker + position);
                 break;
             case Defaults.B:
+                human.drop(marker + position);
                 break;
             case Defaults.Start:
                 return new PlayScreen(world, human);
         }
         return this;
-    }
-    
-    private void equipItem(){
-        Item buffer = human.inventory.get(marker+position);
-        if(buffer instanceof PhysicalWeapon){
-            
-        }
-        else{
-            
-        }
     }
 
     private void moveUp() {

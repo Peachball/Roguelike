@@ -19,6 +19,7 @@ public class Player {
     public Coord location;
     public World world;
     public Item currentWeapon;
+    public int experience;
 
     public Player(PlayerStat startStat, char a, Color foreground, Color background, World world) {
         stats = startStat;
@@ -44,10 +45,8 @@ public class Player {
 
     private boolean isEmpty(Coord location) {
         Collections.sort(world.players, new PlayerSorter());
-        if (Collections.binarySearch(world.players, new Player(location), new PlayerSorter()) < 0) {
-            return true;
-        }
-        return false;
+        Player buffer = new Player(location);
+        return Collections.binarySearch(world.players, new Player(location), new PlayerSorter()) < 0;
     }
 
     public boolean moveUp() {

@@ -42,17 +42,21 @@ public class Defaults {
     //Tile chars
     public static final char WALL_CHAR = '#';
 
-    //Weapon types
-    public static final int WeaponID = 0;
-    public static final int ShieldID = 1;
-    public static final int BootsID = 2;
-    public static final int ArmorID = 3;
+    //Weapon types   
+    //(Weapons are all nums greater than 0)
     public static final int SwordID = 0;
     public static final int AxeID = 1;
     public static final int LanceID = 2;
+    
     public static final int LightID = 0;
     public static final int AnimusID = 1;
     public static final int DarkID = 2;
+    
+    //Other items:
+    public static final int ShieldID = -1;
+    public static final int ArmorID = -2;
+    public static final int BootsID = -3;
+    public static final int GloveID = -4;
 
     //Controls:
     public static final int right = KeyEvent.VK_RIGHT;

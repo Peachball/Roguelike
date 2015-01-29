@@ -2,6 +2,8 @@ package game.players;
 
 import game.defaults.Defaults;
 import game.items.Item;
+import static game.items.ItemList.STICK;
+import static game.items.ItemList.getItem;
 import game.world.World;
 import java.awt.Color;
 import java.util.ArrayList;
@@ -12,12 +14,10 @@ public class Human extends Player {
     public Item[] items;
     public ArrayList<Item> inventory;
     public int maxInventory;
-    public String name;
     public int special;
-    public int experience;
 
     public Human(Coord location, World world) {
-        super(new PlayerStat(10, 0, 0, 0, 0, 0), '@', Color.BLACK, world);
+        super(new PlayerStat(10, 10, 10, 10, 10, 10), '@', Color.BLACK, world);
         this.location = new Coord(location.x, location.y);
         this.originalLocation = new Coord(location.x, location.y);
         items = new Item[Defaults.maxCarriableItems];
@@ -25,7 +25,7 @@ public class Human extends Player {
         maxInventory = 20;
         special = 0;
         experience = 0;
-        currentWeapon = items[0];
+        currentWeapon = items[Defaults.rHand] = getItem(STICK);
     }
 
     public Human(Coord location, String name, World world) {
@@ -89,6 +89,65 @@ public class Human extends Player {
         inventory.add(world.get(this.location).items.get(0));
         world.get(this.location).items.remove(0);
         world.get(this.location).update();
+    }
+
+    //Equip can only be done through player inventory... (keep in mind)
+    public void equip(int position) {
+        if (position >= inventory.size()) {
+            return;
+        }
+        Item buffer = inventory.get(position);
+        if (buffer == null) {
+            return;
+        }
+        switch (buffer.type) {
+            case Defaults.AxeID:
+                if (items[Defaults.rHand] != null) {
+                    inventory.set(position, items[Defaults.rHand]);
+                }
+
+                items[Defaults.rHand] = buffer;
+            case Defaults.LanceID:
+                if (items[Defaults.rHand] != null) {
+                    inventory.set(position, items[Defaults.rHand]);
+                }
+
+                items[Defaults.rHand] = buffer;
+            case Defaults.SwordID:
+                if (items[Defaults.rHand] != null) {
+                    inventory.set(position, items[Defaults.rHand]);
+                }
+
+                items[Defaults.rHand] = buffer;
+            case Defaults.ArmorID:
+                if (items[Defaults.shirt] != null) {
+                    inventory.set(position, items[Defaults.shirt]);
+                }
+                items[Defaults.shirt] = buffer;
+            case Defaults.BootsID:
+                if (items[Defaults.boots] != null) {
+                    inventory.set(position, items[Defaults.boots]);
+                }
+                items[Defaults.boots] = buffer;
+            case Defaults.GloveID:
+                if (items[Defaults.glove] != null) {
+                    inventory.set(position, items[Defaults.glove]);
+                }
+                items[Defaults.glove] = buffer;
+        }
+    }
+
+    public void equip() {
+        equip(inventory.size() - 1);
+    }
+
+    //For inventory
+    public void drop(int position) {
+        if (position >= inventory.size()) {
+            return;
+        }
+        world.get(location).items.add(inventory.get(position));
+        inventory.remove(position);
     }
 
     public void addXP(int num) {

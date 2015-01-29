@@ -4,6 +4,7 @@ import asciiPanel.AsciiPanel;
 import game.defaults.Defaults;
 import game.items.Item;
 import game.items.ItemSpawner;
+import game.items.PhysicalWeapon;
 import game.players.Coord;
 import game.players.Human;
 import game.players.Player;
@@ -27,7 +28,7 @@ public class PlayScreen implements Screen {
         world = WorldGenerator.generateBlankWorld(Defaults.CHUNK_SIZE * 3, Defaults.CHUNK_SIZE * 3);
         ItemSpawner.generateItems(world, Defaults.RARITY_CONSTANT);
         human = new Human(new Coord(Defaults.CHUNK_SIZE + 1, Defaults.CHUNK_SIZE + 1), world);
-        MonsterSpawner.spawnMonsters(world,0);
+        MonsterSpawner.spawnMonsters(world, 0);
 
         //Whatever happens to human in this class will also affect what happens to the player
         //in the World object right?
@@ -56,6 +57,7 @@ public class PlayScreen implements Screen {
         boolean checkerboard = true;
         //Checkerboard, to count tiles...
 
+        world.addDEATHZ();
         for (int y = 0; y < output.getHeightInCharacters(); y++) {
             for (int x = 0; x < output.getWidthInCharacters(); x++) {
                 if (checkerboard) {
@@ -90,20 +92,22 @@ public class PlayScreen implements Screen {
         }
 
         //Display the creatures
-        for (int counter = 0; counter < world.players.size(); counter++) {
-            Player buffer = world.players.get(counter);
-            int buffery = human.location.y - buffer.location.y + (Defaults.GAMESCREEN_SIZEY / 2);
-            int bufferx = human.location.x - buffer.location.x + (Defaults.GAMESCREEN_SIZEX / 2);
+        for (Player buffer : world.players) {
+            int buffery = buffer.location.y - human.location.y + (Defaults.GAMESCREEN_SIZEY / 2);
+            int bufferx = buffer.location.x - human.location.x + (Defaults.GAMESCREEN_SIZEX / 2);
             Color background = buffer.background;
             Color foreground = buffer.foreground;
             if (background == null) {
                 background = world.get(buffer.location).currentBackground;
             }
 
-            if (bufferx < 0 || bufferx > Defaults.GAMESCREEN_SIZEX) {
+            if (bufferx < 0 || bufferx >= Defaults.GAMESCREEN_SIZEX) {
                 continue;
             }
-            if (buffery < 0 || buffery > Defaults.GAMESCREEN_SIZEY) {
+            if (buffery < 0 || buffery >= Defaults.GAMESCREEN_SIZEY) {
+                continue;
+            }
+            if (!playervision.isSeen(buffer.location)) {
                 continue;
             }
             output.write(buffer.representer, bufferx, buffery, foreground, background);
@@ -151,11 +155,36 @@ public class PlayScreen implements Screen {
             output.write("ITEM: " + buffer.name, Defaults.GAMESCREEN_SIZEX, 8);
             output.write("DAMAGE:" + buffer.stats.damage, Defaults.GAMESCREEN_SIZEX, 9);
             output.write("WEIGHT:" + buffer.stats.weight, Defaults.GAMESCREEN_SIZEX, 10);
-            output.write("ACCURACY: " + buffer.stats.accuracy, Defaults.GAMESCREEN_SIZEX + 12, 9);
-            output.write("CRIT CHANCE: " + buffer.stats.critChance, Defaults.GAMESCREEN_SIZEX + 12, 10);
+            output.write("ACCURACY: " + buffer.stats.accuracy, Defaults.GAMESCREEN_SIZEX + 13, 9);
+            output.write("CRIT CHANCE: " + buffer.stats.critChance, Defaults.GAMESCREEN_SIZEX + 13, 10);
             output.write("DEFENSE: " + buffer.stats.damageDefense, Defaults.GAMESCREEN_SIZEX, 11);
             output.write("RES: " + buffer.stats.magicDefense, Defaults.GAMESCREEN_SIZEX, 12);
-            output.write("RARITY LEVEL: " + buffer.stats.rarity, Defaults.GAMESCREEN_SIZEX + 12, 11);
+            output.write("RARITY LEVEL: " + buffer.stats.rarity, Defaults.GAMESCREEN_SIZEX + 13, 11);
+
+            Item buffer2 = null;
+            switch (buffer.type) {
+                case Defaults.AxeID:
+                    buffer2 = human.items[Defaults.rHand];
+                case Defaults.LanceID:
+                    buffer2 = human.items[Defaults.rHand];
+                case Defaults.SwordID:
+                    buffer2 = human.items[Defaults.rHand];
+                case Defaults.ArmorID:
+                    buffer2 = human.items[Defaults.shirt];
+                case Defaults.BootsID:
+                    buffer2 = human.items[Defaults.boots];
+                case Defaults.GloveID:
+                    buffer2 = human.items[Defaults.glove];
+            }
+            if (buffer2 != null) {
+                output.write("YOUR ITEM: " + buffer2.name, Defaults.GAMESCREEN_SIZEX, 13);
+                output.write("DAMAGE: " + buffer2.stats.damage, Defaults.GAMESCREEN_SIZEX, 14);
+                output.write("WEIGHT: " + buffer2.stats.weight, Defaults.GAMESCREEN_SIZEX, 15);
+                output.write("ACCURACY: " + buffer2.stats.accuracy, Defaults.GAMESCREEN_SIZEX, 16);
+                output.write("CRIT CHANCE: " + buffer2.stats.critChance, Defaults.GAMESCREEN_SIZEX + 13, 14);
+                output.write("DEFENSE: " + buffer2.stats.damageDefense, Defaults.GAMESCREEN_SIZEX + 13, 15);
+                output.write("RES: " + buffer2.stats.magicDefense, Defaults.GAMESCREEN_SIZEX + 13, 16);
+            }
         }
     }
 
@@ -181,6 +210,10 @@ public class PlayScreen implements Screen {
                 break;
             case Defaults.Start:
                 return new InventoryScreen(world, human);
+            case Defaults.B:
+                human.pickup(world);
+                human.equip();
+                
         }
         WorldGenerator.generateChunks(world);
         return this;

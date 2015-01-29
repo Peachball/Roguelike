@@ -8,7 +8,6 @@ package game.players.monsters;
 import static game.items.ItemList.STICK;
 import static game.items.ItemList.getItem;
 import game.players.Coord;
-import game.players.Human;
 import game.players.Player;
 import static game.players.monsters.MonsterStats.KOBOLD;
 import game.world.World;
