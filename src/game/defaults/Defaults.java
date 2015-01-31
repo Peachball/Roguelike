@@ -57,6 +57,7 @@ public class Defaults {
     public static final int ArmorID = -2;
     public static final int BootsID = -3;
     public static final int GloveID = -4;
+    public static final int SpecialID = -5;
 
     //Controls:
     public static final int right = KeyEvent.VK_RIGHT;
@@ -68,12 +69,13 @@ public class Defaults {
     public static final int Start = KeyEvent.VK_M;
 
     //Misc Item related constants
-    public static final int maxCarriableItems = 5;
+    public static final int maxCarriableItems = 6;
     public static final int rHand = 0;
     public static final int glove = 1;
     public static final int pants = 2;
     public static final int shirt = 3;
     public static final int boots = 4;
+    public static final int special = 5;
 
     //Inventory maker
     public static final int MAX_INVENTORY_PER_SCREEN = 10;

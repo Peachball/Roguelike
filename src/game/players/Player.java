@@ -20,6 +20,7 @@ public class Player {
     public World world;
     public Item currentWeapon;
     public int experience;
+    
 
     public Player(PlayerStat startStat, char a, Color foreground, Color background, World world) {
         stats = startStat;
@@ -51,7 +52,6 @@ public class Player {
 
     public boolean moveUp() {
         if (!canUp()) {
-            attack(new Coord(location.x, location.y - 1), currentWeapon);
             return false;
         }
         location.y--;
@@ -60,7 +60,6 @@ public class Player {
 
     public boolean moveDown() {
         if (!canDown()) {
-            attack(new Coord(location.x, location.y + 1), currentWeapon);
             return false;
         }
         location.y++;
@@ -69,7 +68,6 @@ public class Player {
 
     public boolean moveRight() {
         if (!canRight()) {
-            attack(new Coord(location.x + 1, location.y), currentWeapon);
             return false;
         }
         location.x++;
@@ -78,7 +76,6 @@ public class Player {
 
     public boolean moveLeft() {
         if (!canLeft()) {
-            attack(new Coord(location.x - 1, location.y), currentWeapon);
             return false;
         }
         location.x--;
@@ -125,15 +122,17 @@ public class Player {
         if (buffer == null) {
             return;
         }
-        attack(buffer, weapon, false);
+        if (Item.isBetter(currentWeapon, buffer.currentWeapon)) {
+            attack(buffer, weapon, true);
+        } else {
+            attack(buffer, weapon, false);
+        }
     }
 
     public void attack(Player player, Item weapon, boolean triangle) {
         if (player == null || weapon == null) {
             return;
         }
-        System.out.println(Mechanics.accuracy(this, currentWeapon, player, weapon, triangle));
-        System.out.println(Math.random() * 100);
         if (Math.random() * 100 < Mechanics.accuracy(this, currentWeapon, player, weapon, triangle)) {
             player.stats.hp = player.stats.hp - Mechanics.damage(this, weapon, player, triangle) * Mechanics.attackTimes(this, currentWeapon, player, weapon);
         }

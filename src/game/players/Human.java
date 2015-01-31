@@ -38,6 +38,8 @@ public class Human extends Player {
         boolean buffer = super.moveUp();
         if (buffer) {
             originalLocation.y--;
+        } else {
+            attack(up(), currentWeapon);
         }
         return buffer;
     }
@@ -47,6 +49,8 @@ public class Human extends Player {
         boolean buffer = super.moveDown();
         if (buffer) {
             originalLocation.y++;
+        } else {
+            attack(down(), currentWeapon);
         }
         return buffer;
     }
@@ -56,6 +60,8 @@ public class Human extends Player {
         boolean buffer = super.moveRight();
         if (buffer) {
             originalLocation.x++;
+        } else {
+            attack(right(), currentWeapon);
         }
         return buffer;
     }
@@ -65,6 +71,8 @@ public class Human extends Player {
         boolean buffer = super.moveLeft();
         if (buffer) {
             originalLocation.x--;
+        } else {
+            attack(left(), currentWeapon);
         }
         return buffer;
     }

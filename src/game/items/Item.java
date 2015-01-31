@@ -42,7 +42,12 @@ public class Item {
     public void setBrand(Brand brand) {
         if (!branded) {
             this.brand = brand;
-            stats.add(brand.stats);
+            if(!brand.add){
+                stats.multiply(brand.stats);
+            }
+            else{
+                
+            stats.add(brand.stats);}
             name = brand.name + " " + name;
         }
 

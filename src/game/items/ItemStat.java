@@ -3,6 +3,7 @@ package game.items;
 public class ItemStat {
 //I just realized that this only works for weapons/armor/things you wear and not
 //consumables...
+
     public int damage;
     public int damageDefense;
     public int magicDefense;
@@ -45,11 +46,26 @@ public class ItemStat {
         }
         return new ItemStat(this.accuracy + stat.accuracy, this.damage + stat.damage,
                 this.weight + stat.weight, this.damageDefense + stat.damageDefense,
-                this.magicDefense + stat.magicDefense, this.rarity + stat.rarity, lowRange, 
+                this.magicDefense + stat.magicDefense, this.rarity + stat.rarity, lowRange,
                 this.critChance + stat.critChance);
+    }
+
+    public ItemStat multiply(ItemStat stat, boolean low) {
+        int lowRange = this.range;
+        if (lowRange > stat.range && low) {
+            lowRange = stat.range;
+        }
+        return new ItemStat(this.accuracy * stat.accuracy, this.damage * stat.damage,
+                this.weight * stat.weight, this.damageDefense * stat.damageDefense,
+                this.magicDefense * stat.magicDefense, this.rarity * stat.rarity, lowRange,
+                this.critChance * stat.critChance);
     }
 
     public ItemStat add(ItemStat stat) {
         return add(stat, true);
+    }
+
+    public ItemStat multiply(ItemStat stat) {
+        return multiply(stat, true);
     }
 }
