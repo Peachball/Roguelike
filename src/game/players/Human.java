@@ -107,33 +107,39 @@ public class Human extends Player {
                 }
 
                 items[Defaults.rHand] = buffer;
+                break;
             case Defaults.LanceID:
                 if (items[Defaults.rHand] != null) {
                     inventory.set(position, items[Defaults.rHand]);
                 }
 
                 items[Defaults.rHand] = buffer;
+                break;
             case Defaults.SwordID:
                 if (items[Defaults.rHand] != null) {
                     inventory.set(position, items[Defaults.rHand]);
                 }
 
                 items[Defaults.rHand] = buffer;
+                break;
             case Defaults.ArmorID:
                 if (items[Defaults.shirt] != null) {
                     inventory.set(position, items[Defaults.shirt]);
                 }
                 items[Defaults.shirt] = buffer;
+                break;
             case Defaults.BootsID:
                 if (items[Defaults.boots] != null) {
                     inventory.set(position, items[Defaults.boots]);
                 }
                 items[Defaults.boots] = buffer;
+                break;
             case Defaults.GloveID:
                 if (items[Defaults.glove] != null) {
                     inventory.set(position, items[Defaults.glove]);
                 }
                 items[Defaults.glove] = buffer;
+                break;
         }
     }
 

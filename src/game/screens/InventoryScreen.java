@@ -30,6 +30,7 @@ public class InventoryScreen implements Screen {
 
     @Override
     public void display(AsciiPanel output) {
+        HUD hud = new HUD(output, world, human);
         output.write("Inventory:" + human.inventory.size() + "/" + human.maxInventory, 0, 0);
         maxMarker = human.inventory.size();
         if (maxMarker > Defaults.MAX_INVENTORY_PER_SCREEN) {
@@ -61,45 +62,26 @@ public class InventoryScreen implements Screen {
             }
         }
         //Add the cool arrow
-        output.write('>', 0, marker + 1);
-
+        if (!equippedScreen) {
+           
+            output.write('>', 0, (marker + 1 <= 0) ? 1 : marker + 1);
+        } else {
+             output.write('>', 0, emarker + 1);
+        }
         //Add player stats
         //Should this be hidden away in another method?
-        output.write(human.name, Defaults.GAMESCREEN_SIZEX, 0);
-        output.write("HP:", Defaults.GAMESCREEN_SIZEX, 1);
-        output.write(Integer.toString(human.stats.hp) + "/" + Integer.toString(human.stats.maxHp),
-                Defaults.GAMESCREEN_SIZEX + 4, 1);
-        output.write("OTHER STAT?", Defaults.GAMESCREEN_SIZEX, 2);
-        output.write("CURRENT LEVEL: " + Integer.toString(human.stats.level), Defaults.GAMESCREEN_SIZEX, 4);
-        output.write("SKILL:", Defaults.GAMESCREEN_SIZEX, 5);
-        output.write(Integer.toString(human.stats.skill), Defaults.GAMESCREEN_SIZEX + 10, 5);
-        output.write("STRENGTH:", Defaults.GAMESCREEN_SIZEX, 6);
-        output.write(Integer.toString(human.stats.skill), Defaults.GAMESCREEN_SIZEX + 10, 6);
-        output.write("SPEED:", Defaults.GAMESCREEN_SIZEX + 15, 5);
-        output.write(Integer.toString(human.stats.speed), Defaults.GAMESCREEN_SIZEX + 20, 5);
-        output.write("LUCK:", Defaults.GAMESCREEN_SIZEX + 15, 6);
-        output.write(Integer.toString(human.stats.luck), Defaults.GAMESCREEN_SIZEX + 20, 6);
-        output.write("RES", Defaults.GAMESCREEN_SIZEX + 30, 5);
-        output.write(Integer.toString(human.stats.magicResist), Defaults.GAMESCREEN_SIZEX + 36, 5);
-        output.write("DEF", Defaults.GAMESCREEN_SIZEX + 30, 6);
-        output.write(Integer.toString(human.stats.damageResist), Defaults.GAMESCREEN_SIZEX + 36, 6);
+        hud.displayPlayerStats(Defaults.GAMESCREEN_SIZEX, 0);
 
         //See item stats:
-        if (!human.inventory.isEmpty()) {
-            Item buffer;
-            if (equippedScreen && human.items[emarker] != null) {
-                buffer = human.items[emarker];
-            } else if(!equippedScreen) {
-                buffer = human.inventory.get(position + marker);
-            }
-            output.write("ITEM: " + buffer.name, Defaults.GAMESCREEN_SIZEX, 8);
-            output.write("DAMAGE:" + buffer.stats.damage, Defaults.GAMESCREEN_SIZEX, 9);
-            output.write("WEIGHT:" + buffer.stats.weight, Defaults.GAMESCREEN_SIZEX, 10);
-            output.write("ACCURACY: " + buffer.stats.accuracy, Defaults.GAMESCREEN_SIZEX + 12, 9);
-            output.write("CRIT CHANCE: " + buffer.stats.critChance, Defaults.GAMESCREEN_SIZEX + 12, 10);
-            output.write("DEFENSE: " + buffer.stats.damageDefense, Defaults.GAMESCREEN_SIZEX, 11);
-            output.write("RES: " + buffer.stats.magicDefense, Defaults.GAMESCREEN_SIZEX, 12);
-            output.write("RARITY LEVEL: " + buffer.stats.rarity, Defaults.GAMESCREEN_SIZEX + 12, 11);
+        Item buffer = null;
+        if (equippedScreen && human.items[emarker] != null) {
+            buffer = human.items[emarker];
+        } else if (!equippedScreen && !human.inventory.isEmpty()) {
+            buffer = human.inventory.get(position + marker);
+        }
+        if (buffer != null) {
+            hud.displayItemStats(Defaults.GAMESCREEN_SIZEX, 8, buffer);
+
         }
     }
 
@@ -127,10 +109,14 @@ public class InventoryScreen implements Screen {
                 equippedScreen = !equippedScreen;
                 break;
             case Defaults.A:
-                human.equip(marker + position);
+                if (!equippedScreen) {
+                    human.equip(marker + position);
+                }
                 break;
             case Defaults.B:
-                human.drop(marker + position);
+                if (!equippedScreen) {
+                    human.drop(marker + position);
+                }
                 break;
             case Defaults.Start:
                 return new PlayScreen(world, human);

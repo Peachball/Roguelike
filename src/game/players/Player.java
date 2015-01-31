@@ -132,7 +132,11 @@ public class Player {
         if (player == null || weapon == null) {
             return;
         }
-        player.stats.hp = player.stats.hp - Mechanics.damage(this, weapon, player, triangle);
+        System.out.println(Mechanics.accuracy(this, currentWeapon, player, weapon, triangle));
+        System.out.println(Math.random() * 100);
+        if (Math.random() * 100 < Mechanics.accuracy(this, currentWeapon, player, weapon, triangle)) {
+            player.stats.hp = player.stats.hp - Mechanics.damage(this, weapon, player, triangle) * Mechanics.attackTimes(this, currentWeapon, player, weapon);
+        }
     }
 
     public void attack(Player player2) {
