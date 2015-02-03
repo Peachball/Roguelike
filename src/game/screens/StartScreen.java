@@ -48,20 +48,20 @@ public class StartScreen implements Screen {
 
     public Screen response(KeyEvent key) {
         switch (key.getKeyCode()) {
-            case KeyEvent.VK_ENTER:
+            case Defaults.A:
                 switch (selection) {
                     case 0:
                         return new PlayScreen();
                     case 1:
                         return new HelpScreen();
                 }
-            case KeyEvent.VK_UP:
+            case Defaults.up:
                 selection--;
                 if (selection < 0) {
                     selection = maxSelection;
                 }
                 break;
-            case KeyEvent.VK_DOWN:
+            case Defaults.down:
                 selection++;
                 if (selection > maxSelection) {
                     selection = 0;

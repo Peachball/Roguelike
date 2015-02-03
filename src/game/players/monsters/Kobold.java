@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package game.players.monsters;
 
 import static game.items.ItemList.STICK;
@@ -13,11 +8,7 @@ import static game.players.monsters.MonsterStats.KOBOLD;
 import game.world.World;
 import java.awt.Color;
 
-/**
- *
- * @author Chen
- */
-public class Kobold extends Player implements AI {
+public class Kobold extends Player {
 
     private World world;
     private FOV fov;
@@ -32,6 +23,10 @@ public class Kobold extends Player implements AI {
     }
 
     @Override
+    public void update(){
+        move();
+    }
+    
     public void move() {
         fov.generateFOV(true);
         if (fov.isSeen(world.player1.location)) {

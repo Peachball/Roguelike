@@ -148,6 +148,10 @@ public class Player {
             attack(player2, currentWeapon, false);
         }
     }
+    
+    public void update(){
+    }
+    
 }
 
 class PlayerSorter implements Comparator<Player> {

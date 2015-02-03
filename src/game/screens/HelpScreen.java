@@ -1,6 +1,7 @@
 package game.screens;
 
 import asciiPanel.AsciiPanel;
+import game.defaults.Defaults;
 import game.players.Human;
 import game.world.World;
 import java.awt.event.KeyEvent;
@@ -29,9 +30,9 @@ public class HelpScreen implements Screen {
 
     public Screen response(KeyEvent key) {
         switch (key.getKeyCode()) {
-            case KeyEvent.VK_ENTER:
+            case KeyEvent.VK_H:
                 return new PlayScreen(currentWorld, currentPlayer);
-            case KeyEvent.VK_S:
+            case Defaults.Start:
                 return new StartScreen();
         }
         return this;

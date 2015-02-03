@@ -32,16 +32,15 @@ public class World {
                 get(new Coord(x, y)).update();
             }
         }
-    }
-    
-    //AWWWWWWWWWWWW YEAHHHHHHHHHHHHHHHHHHHHHHH
-    public void addDEATHZ(){
-        for(int counter = 0;counter<players.size();counter++){
-            if(players.get(counter).stats.hp<=0){
+        for (int counter = 0;counter<players.size();counter++) {
+            Player player = players.get(counter);
+            player.update();
+            if (player.stats.hp <= 0) {
                 players.remove(counter);
             }
         }
     }
+
 
     public boolean appendXEnd(Tile[][] append) {
         if (append[0].length != getYSize()) {

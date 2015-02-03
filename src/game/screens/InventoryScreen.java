@@ -116,6 +116,7 @@ public class InventoryScreen implements Screen {
             case Defaults.B:
                 if (!equippedScreen) {
                     human.drop(marker + position);
+                    moveUp();
                 }
                 break;
             case Defaults.Start:
@@ -133,6 +134,9 @@ public class InventoryScreen implements Screen {
         if (marker < 0) {
             if (human.inventory.size() > maxMarker) {
                 position = human.inventory.size() - maxMarker;
+            }
+            else if(maxMarker>human.inventory.size()){
+                maxMarker = human.inventory.size();
             }
             marker = maxMarker - 1;
         }

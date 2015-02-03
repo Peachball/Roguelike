@@ -59,7 +59,7 @@ public class PlayScreen implements Screen {
         boolean checkerboard = true;
         //Checkerboard, to count tiles...
         hud = new HUD(output, world, human);
-        world.addDEATHZ();
+        world.updateWorld();
         for (int y = 0; y < output.getHeightInCharacters(); y++) {
             for (int x = 0; x < output.getWidthInCharacters(); x++) {
                 if (checkerboard) {
@@ -162,7 +162,7 @@ public class PlayScreen implements Screen {
             }
             if (buffer2 != null) {
                 hud.displayItemStats(Defaults.GAMESCREEN_SIZEX, 13, buffer2);
-                output.write("YOUR ITEM: "+ buffer2.name,Defaults.GAMESCREEN_SIZEX,13);
+                output.write("YOUR ITEM: " + buffer2.name, Defaults.GAMESCREEN_SIZEX, 13);
             }
         }
     }
