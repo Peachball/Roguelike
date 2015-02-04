@@ -20,7 +20,6 @@ public class Player {
     public World world;
     public Item currentWeapon;
     public int experience;
-    
 
     public Player(PlayerStat startStat, char a, Color foreground, Color background, World world) {
         stats = startStat;
@@ -45,8 +44,10 @@ public class Player {
     }
 
     private boolean isEmpty(Coord location) {
+        if (location.equals(world.player1.location) && !(this instanceof Human)) {
+            return false;//false;
+        }
         Collections.sort(world.players, new PlayerSorter());
-        Player buffer = new Player(location);
         return Collections.binarySearch(world.players, new Player(location), new PlayerSorter()) < 0;
     }
 
@@ -118,7 +119,17 @@ public class Player {
         if (weapon == null) {
             return;
         }
-        Player buffer = world.players.get(Collections.binarySearch(world.players, new Player(location), new PlayerSorter()));
+        Player buffer;
+        int position = Collections.binarySearch(world.players, new Player(location), new PlayerSorter());
+        if (position < 0) {
+            if (world.player1.location.equals(location)) {
+                buffer = world.player1;
+            } else {
+                return;
+            }
+        } else {
+            buffer = world.players.get(position);
+        }
         if (buffer == null) {
             return;
         }
@@ -148,10 +159,10 @@ public class Player {
             attack(player2, currentWeapon, false);
         }
     }
-    
-    public void update(){
+
+    public void update() {
     }
-    
+
 }
 
 class PlayerSorter implements Comparator<Player> {

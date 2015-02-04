@@ -55,6 +55,7 @@ public class StartScreen implements Screen {
                     case 1:
                         return new HelpScreen();
                 }
+                break;
             case Defaults.up:
                 selection--;
                 if (selection < 0) {

@@ -1,12 +1,13 @@
 package game.players.monsters;
 
-import static game.items.ItemList.STICK;
+import static game.items.ItemList.SWORD;
 import static game.items.ItemList.getItem;
 import game.players.Coord;
 import game.players.Player;
 import static game.players.monsters.MonsterStats.KOBOLD;
 import game.world.World;
 import java.awt.Color;
+import java.util.Random;
 
 public class Kobold extends Player {
 
@@ -15,19 +16,20 @@ public class Kobold extends Player {
 
     public Kobold(World world, Coord start) {
         super(MonsterStats.getMonsterStat(KOBOLD), 'm', Color.RED, world);
-        currentWeapon = getItem(STICK);
+        currentWeapon = getItem(SWORD);
         this.world = world;
-        location = start;
-        fov = new FOV(location,5);
+        location = new Coord(start.x, start.y);
+        fov = new FOV(location, 5);
         fov.generateFOV(true);
     }
 
     @Override
-    public void update(){
+    public void update() {
         move();
     }
-    
+
     public void move() {
+        fov = new FOV(location, 5);
         fov.generateFOV(true);
         if (fov.isSeen(world.player1.location)) {
 
@@ -48,24 +50,79 @@ public class Kobold extends Player {
                 direction = 3;
             }
             if (shortestDistance > Coord.manhattanDistance(world.player1.left(), location)) {
-                shortestDistance = Coord.manhattanDistance(world.player1.left(), location);
                 direction = 4;
             }
             switch (direction) {
-                case 1:
+                case 3:
                     moveUp();
                     break;
-                case 2:
+                case 4:
                     moveRight();
                     break;
-                case 3:
+                case 1:
                     moveDown();
                     break;
-                case 4:
+                case 2:
                     moveLeft();
                     break;
             }
+        } else {
+            Random r = new Random();
+            int toMove = r.nextInt(4);
+            switch (toMove) {
+                case 0:
+                    moveUp();
+                    break;
+                case 1:
+                    moveDown();
+                    break;
+                case 2:
+                    moveLeft();
+                    break;
+                case 3:
+                    moveRight();
+                    break;
+                default:
+                    System.out.println("Error. toMove was " + toMove);
+
+            }
+
         }
     }
 
+    @Override
+    public boolean moveUp() {
+        if (super.moveUp()) {
+            attack(up(), currentWeapon);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean moveDown() {
+        if (super.moveDown()) {
+            attack(down(), currentWeapon);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean moveRight() {
+        if (super.moveRight()) {
+            attack(right(), currentWeapon);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean moveLeft() {
+        if (super.moveLeft()) {
+            attack(left(), currentWeapon);
+            return false;
+        }
+        return true;
+    }
 }

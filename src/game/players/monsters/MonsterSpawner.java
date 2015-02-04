@@ -20,8 +20,10 @@ public class MonsterSpawner {
     }
 
     private static void spawnLowLevel(World world) {
+        
         for (int x = 0; x < world.getXSize(); x++) {
             for (int y = 0; y < world.getYSize(); y++) {
+              
                 // OK, I have no idea how to spawn monsters, as you can tell by the following code:
                 if (Math.random() < .01) {
                     world.players.add(new Kobold(world, new Coord(x, y)));

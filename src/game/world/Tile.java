@@ -12,6 +12,8 @@ public class Tile {
     public Color currentBackground;
     public Color currentForeground;
     public Color foreground;
+   //For shreyas, the god
+    public char tileRepresenter;
     public char representer;
     public ArrayList<Item> items;
     public int terrainBonus;
@@ -23,7 +25,7 @@ public class Tile {
         this.background = background;
         this.foreground = foreground;
         currentBackground = background;
-        this.representer = x;
+        this.tileRepresenter = x;
         wall = (x == Defaults.WALL_CHAR);
         items = new ArrayList<Item>();
         this.type = type;
@@ -57,7 +59,9 @@ public class Tile {
 
     public boolean update() {
         if (items.isEmpty()) {
-            representer = ' ';
+            representer = tileRepresenter;
+            currentForeground = foreground;
+            currentBackground = background;
             return false;
         }
         currentForeground = items.get(0).foreground;

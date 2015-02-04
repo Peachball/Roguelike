@@ -37,7 +37,7 @@ public class Human extends Player {
     public boolean moveUp() {
         boolean buffer = super.moveUp();
         if (buffer) {
-            originalLocation.y--;
+            originalLocation.y++;
         } else {
             attack(up(), currentWeapon);
         }
@@ -48,7 +48,7 @@ public class Human extends Player {
     public boolean moveDown() {
         boolean buffer = super.moveDown();
         if (buffer) {
-            originalLocation.y++;
+            originalLocation.y--;
         } else {
             attack(down(), currentWeapon);
         }

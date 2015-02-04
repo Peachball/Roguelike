@@ -35,6 +35,7 @@ public class PlayScreen implements Screen {
         world.player1 = human;
 
         world.updateWorld();
+        WorldGenerator.generateChunks(world);
         human.name = "RIGHTEOUS LORD BRENNAN";
         //human2.name = "BRENNAN'S EVIL COUSIN"
         log = world.log;
@@ -56,21 +57,21 @@ public class PlayScreen implements Screen {
 
     @Override
     public void display(AsciiPanel output) {
-        boolean checkerboard = true;
-        //Checkerboard, to count tiles...
+//        boolean checkerboard = true;
+//        //Checkerboard, to count tiles...
         hud = new HUD(output, world, human);
         world.updateWorld();
-        for (int y = 0; y < output.getHeightInCharacters(); y++) {
-            for (int x = 0; x < output.getWidthInCharacters(); x++) {
-                if (checkerboard) {
-                    checkerboard = false;
-                    output.write(' ', x, y, Color.BLACK, Color.BLACK);
-                } else {
-                    checkerboard = true;
-                    output.write(' ', x, y, Color.WHITE, Color.WHITE);
-                }
-            }
-        }
+//        for (int y = 0; y < output.getHeightInCharacters(); y++) {
+//            for (int x = 0; x < output.getWidthInCharacters(); x++) {
+//                if (checkerboard) {
+//                    checkerboard = false;
+//                    output.write(' ', x, y, Color.BLACK, Color.BLACK);
+//                } else {
+//                    checkerboard = true;
+//                    output.write(' ', x, y, Color.WHITE, Color.WHITE);
+//                }
+//            }
+//        }
         //Display the map with all of it's items + Players fov
         FOV playervision = new FOV(human.location, 20);
         playervision.generateFOV(true);
@@ -88,6 +89,7 @@ public class PlayScreen implements Screen {
                     foreground = Color.black;
                     background = Color.black;
                 }
+                System.out.println(world.get(bufferx,buffery).representer);
                 output.write(world.get(bufferx, buffery).representer, x, y,
                         foreground, background);
             }
@@ -95,6 +97,7 @@ public class PlayScreen implements Screen {
 
         //Display the creatures
         for (Player buffer : world.players) {
+            
             int buffery = buffer.location.y - human.location.y + (Defaults.GAMESCREEN_SIZEY / 2);
             int bufferx = buffer.location.x - human.location.x + (Defaults.GAMESCREEN_SIZEX / 2);
             Color background = buffer.background;
@@ -192,6 +195,9 @@ public class PlayScreen implements Screen {
             case Defaults.B:
                 human.pickup(world);
                 human.equip();
+                break;
+            default:
+                break;
 
         }
         WorldGenerator.generateChunks(world);

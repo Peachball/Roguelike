@@ -34,7 +34,7 @@ public class World {
         }
         for (int counter = 0;counter<players.size();counter++) {
             Player player = players.get(counter);
-            player.update();
+            player.update();//That's why you add comments... So you can determine your mental state at the time
             if (player.stats.hp <= 0) {
                 players.remove(counter);
             }

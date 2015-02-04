@@ -10,7 +10,7 @@ public enum MonsterStats {
     public static PlayerStat getMonsterStat(MonsterStats monster) {
         switch (monster) {
             case KOBOLD:
-                return new PlayerStat(10, 5, 5, 5, 2, 2, 0, 5);
+                return new PlayerStat(100, 100, 100, 100, 100, 100, 100, 100);
         }
         return null;
     }

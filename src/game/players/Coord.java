@@ -34,6 +34,10 @@ public class Coord implements Comparable<Coord> {
     public static int realDistance(Coord x, Coord y) {
         return (int) Math.round(Math.sqrt(Math.pow(x.x - y.x, 2) + Math.pow(x.y - y.y, 2))) - 1;
     }
+    
+    public boolean equals(Coord coord){
+        return coord.x == x && coord.y != y;
+    }
 
     @Override
     public int compareTo(Coord t) {
