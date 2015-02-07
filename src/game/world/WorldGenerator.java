@@ -38,8 +38,11 @@ public class WorldGenerator {
             for (int y = 0; y < sizey; y++) {
                 if (Math.random() > .5) {
                     buffer[x][y] = generateTile(MOUNTAIN);
-                } else {
+                } else if(Math.random()>.5){
                     buffer[x][y] = generateTile(GRASSLAND);
+                }
+                else{
+                    buffer[x][y] = generateTile(DESERT);
                 }
             }
         }

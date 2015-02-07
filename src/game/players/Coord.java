@@ -36,7 +36,7 @@ public class Coord implements Comparable<Coord> {
     }
     
     public boolean equals(Coord coord){
-        return coord.x == x && coord.y != y;
+        return coord.x == x && coord.y == y;
     }
 
     @Override

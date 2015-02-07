@@ -7,9 +7,8 @@ import static game.items.ItemList.STICK;
 import game.world.World;
 import java.awt.Color;
 import java.util.Collections;
-import java.util.Comparator;
 
-public class Player {
+public class Player implements Comparable<Player> {
 
     public String name;
     public PlayerStat stats;
@@ -41,14 +40,6 @@ public class Player {
 
     public Player(Coord location) {
         this.location = location;
-    }
-
-    private boolean isEmpty(Coord location) {
-        if (location.equals(world.player1.location) && !(this instanceof Human)) {
-            return false;//false;
-        }
-        Collections.sort(world.players, new PlayerSorter());
-        return Collections.binarySearch(world.players, new Player(location), new PlayerSorter()) < 0;
     }
 
     public boolean moveUp() {
@@ -84,19 +75,19 @@ public class Player {
     }
 
     public boolean canRight() {
-        return isEmpty(new Coord(location.x + 1, location.y));
+        return world.isEmpty(new Coord(location.x + 1, location.y));
     }
 
     public boolean canLeft() {
-        return isEmpty(new Coord(location.x - 1, location.y));
+        return world.isEmpty(new Coord(location.x - 1, location.y));
     }
 
     public boolean canUp() {
-        return isEmpty(new Coord(location.x, location.y - 1));
+        return world.isEmpty(new Coord(location.x, location.y - 1));
     }
 
     public boolean canDown() {
-        return isEmpty(new Coord(location.x, location.y + 1));
+        return world.isEmpty(new Coord(location.x, location.y + 1));
     }
 
     public Coord up() {
@@ -120,7 +111,7 @@ public class Player {
             return;
         }
         Player buffer;
-        int position = Collections.binarySearch(world.players, new Player(location), new PlayerSorter());
+        int position = Collections.binarySearch(world.players, new Player(location));
         if (position < 0) {
             if (world.player1.location.equals(location)) {
                 buffer = world.player1;
@@ -145,7 +136,11 @@ public class Player {
             return;
         }
         if (Math.random() * 100 < Mechanics.accuracy(this, currentWeapon, player, weapon, triangle)) {
-            player.stats.hp = player.stats.hp - Mechanics.damage(this, weapon, player, triangle) * Mechanics.attackTimes(this, currentWeapon, player, weapon);
+            if (Math.random() * 100 < Mechanics.critChance(this, weapon, player)) {
+                player.stats.hp -= 3 * Mechanics.damage(this, weapon, player, triangle) * Mechanics.attackTimes(this, currentWeapon, player, weapon);
+            } else {
+                player.stats.hp = player.stats.hp - Mechanics.damage(this, weapon, player, triangle) * Mechanics.attackTimes(this, currentWeapon, player, weapon);
+            }
         }
     }
 
@@ -160,19 +155,16 @@ public class Player {
         }
     }
 
-    public void update() {
+    public boolean update() {
+        return stats.hp <= 0;
     }
 
-}
-
-class PlayerSorter implements Comparator<Player> {
-
     @Override
-    public int compare(Player t, Player t1) {
-        if (t.location.x != t1.location.x) {
-            return t.location.x - t1.location.x;
+    public int compareTo(Player t) {
+        if (location.x != t.location.x) {
+            return location.x - t.location.x;
         }
-        return t.location.y - t1.location.y;
+        return location.y - t.location.y;
     }
 
 }

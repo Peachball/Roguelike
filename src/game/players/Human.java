@@ -16,6 +16,8 @@ public class Human extends Player {
     public int maxInventory;
     public int special;
 
+    private static final Buff DEFAULT_LEVEL_UP = new Buff(new PlayerStat(1, 1, 1, 1, 1, 1), 1);
+
     public Human(Coord location, World world) {
         super(new PlayerStat(10, 10, 10, 10, 10, 10), '@', Color.BLACK, world);
         this.location = new Coord(location.x, location.y);
@@ -170,5 +172,9 @@ public class Human extends Player {
             experience -= 100;
             stats.level++;
         }
+    }
+
+    public void levelUp() {
+        DEFAULT_LEVEL_UP.applyBuff(stats);
     }
 }

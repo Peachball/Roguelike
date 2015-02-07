@@ -36,6 +36,7 @@ public class Defaults {
     public static final int DEFAULT_GRASSLANDS = 0;
     public static final int DEFAULT_MOUNTAINS = 1;
     public static final int DEFAULT_FOREST = 2;
+    public static final int DEFAULT_DESERT = 4;
     public static final int DEFAULT_BUSH = 3;
     public static final int DEFAULT_WALL = -1;
 

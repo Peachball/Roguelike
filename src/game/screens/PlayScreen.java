@@ -28,13 +28,11 @@ public class PlayScreen implements Screen {
         world = WorldGenerator.generateBlankWorld(Defaults.CHUNK_SIZE * 3, Defaults.CHUNK_SIZE * 3);
         ItemSpawner.generateItems(world, Defaults.RARITY_CONSTANT);
         human = new Human(new Coord(Defaults.CHUNK_SIZE + 1, Defaults.CHUNK_SIZE + 1), world);
+        world.player1 = human;
         MonsterSpawner.spawnMonsters(world, 0);
 
         //Whatever happens to human in this class will also affect what happens to the player
         //in the World object right?
-        world.player1 = human;
-
-        world.updateWorld();
         WorldGenerator.generateChunks(world);
         human.name = "RIGHTEOUS LORD BRENNAN";
         //human2.name = "BRENNAN'S EVIL COUSIN"
@@ -60,7 +58,7 @@ public class PlayScreen implements Screen {
 //        boolean checkerboard = true;
 //        //Checkerboard, to count tiles...
         hud = new HUD(output, world, human);
-        world.updateWorld();
+
 //        for (int y = 0; y < output.getHeightInCharacters(); y++) {
 //            for (int x = 0; x < output.getWidthInCharacters(); x++) {
 //                if (checkerboard) {
@@ -89,7 +87,6 @@ public class PlayScreen implements Screen {
                     foreground = Color.black;
                     background = Color.black;
                 }
-                System.out.println(world.get(bufferx,buffery).representer);
                 output.write(world.get(bufferx, buffery).representer, x, y,
                         foreground, background);
             }
@@ -97,7 +94,7 @@ public class PlayScreen implements Screen {
 
         //Display the creatures
         for (Player buffer : world.players) {
-            
+
             int buffery = buffer.location.y - human.location.y + (Defaults.GAMESCREEN_SIZEY / 2);
             int bufferx = buffer.location.x - human.location.x + (Defaults.GAMESCREEN_SIZEX / 2);
             Color background = buffer.background;
@@ -115,6 +112,7 @@ public class PlayScreen implements Screen {
             if (!playervision.isSeen(buffer.location)) {
                 continue;
             }
+            System.out.println(buffer.stats.hp);
             output.write(buffer.representer, bufferx, buffery, foreground, background);
         }
 
@@ -201,6 +199,10 @@ public class PlayScreen implements Screen {
 
         }
         WorldGenerator.generateChunks(world);
+        world.updateWorld();
+        if (human.stats.hp <= 0) {
+            return new DeathScreen();
+        }
         return this;
     }
 

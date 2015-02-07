@@ -11,7 +11,6 @@ import java.util.Random;
 
 public class Kobold extends Player {
 
-    private World world;
     private FOV fov;
 
     public Kobold(World world, Coord start) {
@@ -24,8 +23,9 @@ public class Kobold extends Player {
     }
 
     @Override
-    public void update() {
+    public boolean update() {
         move();
+        return super.update();
     }
 
     public void move() {
@@ -92,7 +92,7 @@ public class Kobold extends Player {
 
     @Override
     public boolean moveUp() {
-        if (super.moveUp()) {
+        if (!super.moveUp()) {
             attack(up(), currentWeapon);
             return false;
         }
@@ -101,7 +101,7 @@ public class Kobold extends Player {
 
     @Override
     public boolean moveDown() {
-        if (super.moveDown()) {
+        if (!super.moveDown()) {
             attack(down(), currentWeapon);
             return false;
         }
@@ -110,7 +110,7 @@ public class Kobold extends Player {
 
     @Override
     public boolean moveRight() {
-        if (super.moveRight()) {
+        if (!super.moveRight()) {
             attack(right(), currentWeapon);
             return false;
         }
@@ -119,7 +119,7 @@ public class Kobold extends Player {
 
     @Override
     public boolean moveLeft() {
-        if (super.moveLeft()) {
+        if (!super.moveLeft()) {
             attack(left(), currentWeapon);
             return false;
         }

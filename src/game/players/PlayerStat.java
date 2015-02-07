@@ -1,14 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package game.players;
 
-/**
- *
- * @author Chen
- */
 public class PlayerStat {
 
     public int maxHp;
@@ -20,6 +11,7 @@ public class PlayerStat {
     public int strength;
     public int luck;
     public int level;
+
 
     public PlayerStat(int hp, int skill, int speed, int strength, int magicResist, int damageResist) {
         this.maxHp = hp;

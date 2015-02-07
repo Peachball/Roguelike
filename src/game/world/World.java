@@ -4,6 +4,8 @@ import game.players.Coord;
 import game.players.Human;
 import game.players.Player;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class World {
 
@@ -32,15 +34,13 @@ public class World {
                 get(new Coord(x, y)).update();
             }
         }
-        for (int counter = 0;counter<players.size();counter++) {
+        for (int counter = 0; counter < players.size(); counter++) {
             Player player = players.get(counter);
-            player.update();//That's why you add comments... So you can determine your mental state at the time
-            if (player.stats.hp <= 0) {
+            if (player.update()) {
                 players.remove(counter);
             }
         }
     }
-
 
     public boolean appendXEnd(Tile[][] append) {
         if (append[0].length != getYSize()) {
@@ -121,4 +121,12 @@ public class World {
         return players.add(player);
     }
 
+    //Check existence of a monster (or human)
+    public boolean isEmpty(Coord location) {
+        if (location.equals(player1.location)) {
+            return false;
+        }
+        Collections.sort(players);
+        return Collections.binarySearch(players, new Player(location)) < 0;
+    }
 }
