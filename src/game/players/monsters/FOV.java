@@ -1,6 +1,7 @@
 package game.players.monsters;
 
 import game.players.Coord;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -33,19 +34,18 @@ public class FOV {
             }
         } //Not too sure how to implement this just yet...
         else {
+//Fails
         }
         Collections.sort(vision);
     }
-    
-    public boolean isSeen(Coord location){
+
+    public boolean isSeen(Coord location) {
         Collections.sort(vision);
-        if(Collections.binarySearch(vision,location) < 0){
+        if (Collections.binarySearch(vision, location) < 0) {
             return false;
-        }
-        else{
+        } else {
             return true;
         }
     }
-    
 
 }

@@ -54,18 +54,6 @@ public class Item {
         branded = true;
     }
 
-    public void update() {
-        //Possibly add a function to determine the color of a rare item?
-        if (stats.rarity > Defaults.LOW_RARITY) {
-            foreground = Defaults.LOW_RARITY_COLOR;
-        }
-        if (stats.rarity > Defaults.MEDIUM_RARITY) {
-            foreground = Defaults.MEDIUM_RARITY_COLOR;
-        }
-        if (stats.rarity > Defaults.HIGH_RARITY) {
-            foreground = Defaults.HIGH_RARITY_COLOR;
-        }
-    }
 
     public static boolean isBetter(Item one, Item two) {
         if (one.type == Defaults.SwordID && two.type == Defaults.AxeID) {

@@ -4,6 +4,7 @@ import game.defaults.Defaults;
 import game.items.Item;
 import static game.items.ItemList.STICK;
 import static game.items.ItemList.getItem;
+import game.items.consumables.Consumable;
 import game.world.World;
 import java.awt.Color;
 import java.util.ArrayList;
@@ -15,8 +16,6 @@ public class Human extends Player {
     public ArrayList<Item> inventory;
     public int maxInventory;
     public int special;
-
-    private static final Buff DEFAULT_LEVEL_UP = new Buff(new PlayerStat(1, 1, 1, 1, 1, 1), 1);
 
     public Human(Coord location, World world) {
         super(new PlayerStat(10, 10, 10, 10, 10, 10), '@', Color.BLACK, world);
@@ -153,6 +152,19 @@ public class Human extends Player {
         }
     }
 
+    public void use(int position) {
+        if (position >= inventory.size()) {
+            return;
+        }
+        Item buffer = inventory.get(position);
+        if (buffer == null) {
+            return;
+        }
+        if (buffer instanceof Consumable) {
+            ((Consumable) buffer).effect(this);
+        }
+    }
+
     public void equip() {
         equip(inventory.size() - 1);
     }
@@ -175,6 +187,13 @@ public class Human extends Player {
     }
 
     public void levelUp() {
-        DEFAULT_LEVEL_UP.applyBuff(stats);
+        stats.maxHp += Math.round(Math.random());
+        stats.damageResist += Math.random() * 100 > 25 ? 0 : 1;
+        stats.magicResist += Math.random() * 100 > 25 ? 0 : 1;
+        stats.level++;
+        stats.luck += Math.random() * 100 > 33 ? 0 : 1;
+        stats.skill += Math.random() * 100 > 75 ? 0 : 1;
+        stats.speed += Math.random() * 100 > 70 ? 0 : 1;
+        stats.strength += Math.random() * 100 > 75 ? 0 : 1;
     }
 }

@@ -37,6 +37,7 @@ public class PlayScreen implements Screen {
         human.name = "RIGHTEOUS LORD BRENNAN";
         //human2.name = "BRENNAN'S EVIL COUSIN"
         log = world.log;
+        world.updateWorld();
 
     }
 
@@ -112,7 +113,6 @@ public class PlayScreen implements Screen {
             if (!playervision.isSeen(buffer.location)) {
                 continue;
             }
-            System.out.println(buffer.stats.hp);
             output.write(buffer.representer, bufferx, buffery, foreground, background);
         }
 

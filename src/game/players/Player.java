@@ -19,6 +19,7 @@ public class Player implements Comparable<Player> {
     public World world;
     public Item currentWeapon;
     public int experience;
+    protected Player lastAttacker;
 
     public Player(PlayerStat startStat, char a, Color foreground, Color background, World world) {
         stats = startStat;

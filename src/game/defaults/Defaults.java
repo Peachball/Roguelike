@@ -48,7 +48,6 @@ public class Defaults {
     public static final int SwordID = 0;
     public static final int AxeID = 1;
     public static final int LanceID = 2;
-    
     public static final int LightID = 0;
     public static final int AnimusID = 1;
     public static final int DarkID = 2;
@@ -59,6 +58,7 @@ public class Defaults {
     public static final int BootsID = -3;
     public static final int GloveID = -4;
     public static final int SpecialID = -5;
+    public static final int ConsumableID = -6;
 
     //Controls:
     public static final int right = KeyEvent.VK_RIGHT;
